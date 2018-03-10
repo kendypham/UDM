@@ -23,7 +23,7 @@ include("db_conf.php")
 <form method="post" action="func_search.php">
 	<div class="form-group">
           <label for="Địa Điểm">Nhập địa điểm</label>
-  <select name="taskOption">
+  <select name="country">
 <?php
   	$sql1 = "SELECT * FROM VUNG WHERE 1";
 
@@ -34,10 +34,18 @@ include("db_conf.php")
 }
 ?>
   </select>
-  <label for="Lịch trình">Nhập lịch trình</label>
-    <input type="date" name="date"/>
-       <input type="text" name="search">
-    <input type="submit" value="Submit the form"/>
+ <select name="service">
+<?php
+  	$sql1 = "SELECT * FROM DICHVU WHERE 1";
+
+ 	$a = mysqli_query($link, $sql1);
+
+ 	while ($row = $a->fetch_assoc()) {
+  		echo "<option value='".$row['TENDICHVU']."'>".$row['TENDICHVU']."</option>";
+}
+?>
+  </select>
+   <input type="submit" value="Search"/>
 </div> <!-- hết form-group -->
 
 <div class="form-group">
