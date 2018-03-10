@@ -1,22 +1,6 @@
 <?php
 // DATABASE
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'UDM');
-define('DB_USER', 'root');
-define('DB_PASSWORD', 'swiTmmiizcXJ');
-
-$link = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD);
-if(!$link){
-	die('Could not connect: ' .mysqlI_error($link));
-}
-
-$db_selected = mysqli_select_db($link,DB_NAME);
-
-if(!$db_selected) {
-	die ('Can\'t use' .DB_NAME . ':' . mysqli_error($link));
-}  
-
-mysqli_query($link, "SET NAMES 'utf8'");
+include 'db_conf.php';
 
 ThemVung($link,"Nghệ An","16493.7" );
 ThemVung($link,"Gia Lai","15536.9" );
@@ -82,15 +66,14 @@ ThemVung($link,"Hưng Yên","926" );
 ThemVung($link,"Hà Nam","860.5" );
 ThemVung($link,"Bắc Ninh","822.7" );
 
-$sql1 = "SELECT * FROM `VUNG` WHERE 'ID' LIKE '%64%'";
+// $sql1 = "SELECT * FROM VUNG WHERE TENVUNG LIKE 'Sơn La'";
 
-$a = mysqli_query($link, $sql1);
-
-
-while ($row = $a->fetch_assoc()) {
-    echo $row["TENVUNG"].$row["DIENTICH"] ."<br>" ;
-}
-echo 'xong roi';
+// $a = mysqli_query($link, $sql1);
+// echo 'ctông: '. mysqli_num_rows($a);
+// while ($row = $a->fetch_assoc()) {
+//     echo $row["TENVUNG"].$row["DIENTICH"] ."<br>" ;
+// }
+// echo 'xong roi';
  mysqli_close($link);
 // function
 function ThemVung($link, $ten, $dt) {
