@@ -13,6 +13,7 @@
 			</select>
 			<input type="submit" name="search" value="Search">
 		</form>  Hết form  -->
+
 <div class="wrapform">
 <form method="post" action="process.php">
 	<div class="form-group">
