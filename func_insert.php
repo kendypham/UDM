@@ -15,6 +15,9 @@ $db_selected = mysqli_select_db($link,DB_NAME);
 if(!$db_selected) {
 	die ('Can\'t use' .DB_NAME . ':' . mysqli_error($link));
 }  
+
+mysqli_query($link, "SET NAMES 'utf8'");
+
 ThemVung($link,"Nghệ An","16493.7" );
 ThemVung($link,"Gia Lai","15536.9" );
 ThemVung($link,"Sơn La","14174.4" );
