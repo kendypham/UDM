@@ -1,35 +1,21 @@
 <?php 
 include 'db_conf.php';
 
-$country =  $_REQUEST['country'];
+$province =  $_REQUEST['province'];
 $service =  $_REQUEST['service'];
-
-if(strlen($country)<1 ||strlen($service)<1) return;
-
-
-$query = "SELECT ID FROM VUNG WHERE TENVUNG LIKE '%$country%'";
-
-$result_id_vung = mysqli_query($link, $query) or die(mysqli_error($link)."[".$query."]");
-
-$row = $result_id_vung->fetch_assoc();
-$id_vung= $row["ID"];
-
-
-$query = "SELECT ID FROM DICHVU WHERE TENDICHVU LIKE '%$service%'";
-
-$result_id_dichvu = mysqli_query($link, $query) or die(mysqli_error($link)."[".$query."]");
-
-$row = $result_id_dichvu->fetch_assoc();
-$id_dichvu= $row["ID"];
- 
+echo $province;
+echo $service;
+if(strlen($province)<1 ||strlen($service)<1) return;
+// Database
+$id_vung= FindIDprovince($province);
+$id_dichvu= FindIDService($service);
 
 $query = "SELECT * FROM BANGGIA WHERE ( ID_DICHVU LIKE '$id_dichvu' ) AND ( ID_VUNG LIKE '$id_vung')";
 echo "truy van :" . $query .'<br>';
 $results = mysqli_query($link, $query) or die(mysqli_error($link)."[".$query."]");
 
 while ($row = $results->fetch_assoc()) {
-echo $country. '- '.$service .':'.$row["GIA"] ."<br>" ;
+echo $province. '- '.$service .':'.$row["GIA"] ."<br>" ;
 }
-
-
+ mysqli_close($link);
 ?>

@@ -13,6 +13,53 @@ $db_selected = mysqli_select_db($link,DB_NAME);
 if(!$db_selected) {
 	die ('Can\'t use' .DB_NAME . ':' . mysqli_error($link));
 }  
-//Lỗi font 
+//Khắc phục Lỗi font tiếng Việt
 mysqli_query($link, "SET NAMES 'utf8'");
+
+//Insert gia dich vu
+
+function FindIDProvince($province){
+
+$query = "SELECT ID FROM VUNG WHERE TENVUNG LIKE '%$province%'";
+$result_id_vung = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+$row = $result_id_vung->fetch_assoc();
+return $row["ID"];
+}
+
+function FindIDService($service){
+
+$query = "SELECT ID FROM DICHVU WHERE TENDICHVU LIKE '%$service%'";
+$result_id_dichvu = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+$row = $result_id_dichvu->fetch_assoc();
+return $row["ID"];
+}
+
+//Thêm giá dịch vụ với tên vùng , dịch vụ, giá
+function InsertData($province, $service,$price){
+	//INSERT INTO `BANGGIA` (`ID`, `ID_DICHVU`, `ID_VUNG`, `GIA`) VALUES (NULL, '1', '9', '100');
+$id_province = FindIDProvince($province);
+$id_service = FindIDService($service);
+$query = "INSERT INTO `BANGGIA` (`ID`, `ID_DICHVU`, `ID_VUNG`, `GIA`)  VALUES (NULL,'$id_service', '$id_province','$price')";
+echo "<br> ::::". $query;
+$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+}
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,17 +22,17 @@ include("db_conf.php")
 <div class="wrapform">
 <form method="post" action="func_search.php">
 	<div class="form-group">
-          <label for="Địa Điểm">Nhập địa điểm</label>
-  <select name="country">
-<?php
-  	$sql1 = "SELECT * FROM VUNG WHERE 1";
+        <label for="province">Nhập địa điểm</label>
+  <select name="province">
+	<?php
+	  	$sql1 = "SELECT * FROM VUNG WHERE 1";
 
- 	$a = mysqli_query($link, $sql1);
+	 	$a = mysqli_query($link, $sql1);
 
- 	while ($row = $a->fetch_assoc()) {
-  		echo "<option value='".$row['TENVUNG']."'>".$row['TENVUNG']."</option>";
-}
-?>
+	 	while ($row = $a->fetch_assoc()) {
+	  		echo "<option value='".$row['TENVUNG']."'>".$row['TENVUNG']."</option>";
+	}
+	?>
   </select>
  <select name="service">
 <?php
