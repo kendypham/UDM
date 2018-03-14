@@ -43,6 +43,10 @@ $query = "INSERT INTO `BANGGIA` (`ID`, `ID_DICHVU`, `ID_VUNG`, `GIA`)  VALUES (N
 echo "<br> ::::". $query;
 $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 }
+function RemoveAllData(){
+$query = "DELETE FROM `BANGGIA` WHERE 1";
+$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+}
 ?>
 
 

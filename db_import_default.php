@@ -201,7 +201,7 @@ ThemDichVu($link,"Sân Quần vợ");
 ThemDichVu($link,"Siêu thị");
 ThemDichVu($link,"Sinh vật họ");
 ThemDichVu($link,"Spa");
-ThemDichVu($link,"Sử");
+ThemDichVu($link,"Sửa");
 ThemDichVu($link,"Sửa chữa và bảo dưỡng xe hơi lưu động");
 ThemDichVu($link,"Sửa chữa và bảo dưỡng xe máy lưu động");
 ThemDichVu($link,"Sức khỏe");
