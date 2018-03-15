@@ -1,6 +1,7 @@
 <?php
 // DATABASE
 include 'db_conf.php';
+RemoveAllData();
 
 ThemVung($link,"An Giang","3536.7");
 ThemVung($link,"Bà Rịa - Vũng Tàu","1989.5");
@@ -65,7 +66,7 @@ ThemVung($link,"Tuyên Quang","5867.3");
 ThemVung($link,"Vĩnh Long","1496.8");
 ThemVung($link,"Vĩnh Phúc","1236.5");
 ThemVung($link,"Yên Bái","6886.3");
-
+ThemVung($link,"Toàn Quốc","331210");
 echo "Hoàn tất cập nhật danh sách vùng";
 //--------------------------------------------------------------
 ThemDichVu($link,"Âm nhạc");
@@ -199,7 +200,7 @@ ThemDichVu($link,"Rượu");
 ThemDichVu($link,"Sân Cầu lông");
 ThemDichVu($link,"Sân Quần vợ");
 ThemDichVu($link,"Siêu thị");
-ThemDichVu($link,"Sinh vật họ");
+ThemDichVu($link,"Sinh vật học");
 ThemDichVu($link,"Spa");
 ThemDichVu($link,"Sửa");
 ThemDichVu($link,"Sửa chữa và bảo dưỡng xe hơi lưu động");
@@ -249,7 +250,7 @@ ThemDichVu($link,"Văn phòng công chứng");
 ThemDichVu($link,"Văn phòng dịch thuật");
 ThemDichVu($link,"Văn phòng hướng dẫn viên");
 ThemDichVu($link,"Văn phòng luật sư");
-ThemDichVu($link,"Vật lý họ");
+ThemDichVu($link,"Vật lý học");
 ThemDichVu($link,"Vệ sĩ");
 ThemDichVu($link,"Vé tàu xe máy bay");
 ThemDichVu($link,"Xăng");
@@ -265,7 +266,7 @@ ThemDichVu($link,"Xe khách");
 ThemDichVu($link,"Xe khách nhỏ");
 ThemDichVu($link,"Xe máy");
 ThemDichVu($link,"Xe ôm");
-ThemDichVu($link,"Xe tả");
+ThemDichVu($link,"Xe tải");
 ThemDichVu($link,"Xét nghiệm tại nhà");
 
 echo "Hoàn tất cập nhật danh sách dịch vụ";

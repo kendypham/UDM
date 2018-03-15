@@ -43,10 +43,33 @@ $query = "INSERT INTO `BANGGIA` (`ID`, `ID_DICHVU`, `ID_VUNG`, `GIA`)  VALUES (N
 echo "<br> ::::". $query;
 $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 }
-function RemoveAllData(){
+
+function RemoveAllPrice(){
 $query = "DELETE FROM `BANGGIA` WHERE 1";
 $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 }
+
+function RemoveAllProvince(){
+$query = "DELETE FROM `VUNG` WHERE 1";
+$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+}
+
+function RemoveAllService(){
+$query = "DELETE FROM `DICHVU` WHERE 1";
+$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+}
+function ResetAutoIncrement(){
+$query = "ALTER TABLE VUNG AUTO_INCREMENT=1";
+$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+}
+
+function RemoveAllData(){
+	ResetAutoIncrement();
+	RemoveAllPrice();
+	RemoveAllProvince();
+	RemoveAllService();
+}
+
 ?>
 
 
