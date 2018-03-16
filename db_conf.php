@@ -61,6 +61,8 @@ $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['l
 function ResetAutoIncrement(){
 $query = "ALTER TABLE VUNG AUTO_INCREMENT=1";
 $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+$query = "ALTER TABLE DICHVU AUTO_INCREMENT=1";
+$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 }
 
 function RemoveAllData(){
