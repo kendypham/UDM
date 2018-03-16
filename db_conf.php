@@ -62,7 +62,7 @@ function ResetAutoIncrement(){
 $query = "ALTER TABLE VUNG AUTO_INCREMENT=1";
 $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 
-$query1= "ALTER TABLE VUNG AUTO_INCREMENT=1";
+$query1= "ALTER TABLE DICHVU AUTO_INCREMENT=1";
 $result1 = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 }
 
