@@ -2,7 +2,7 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'UDM');
 define('DB_USER', 'root');
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'swiTmmiizcXJ');
 // swiTmmiizcXJ
 $link = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD);
 if(!$link){
@@ -64,10 +64,10 @@ $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['l
 }
 
 function RemoveAllData(){
-	ResetAutoIncrement();
 	RemoveAllPrice();
 	RemoveAllProvince();
 	RemoveAllService();
+	ResetAutoIncrement();
 }
 
 ?>
