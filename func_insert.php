@@ -13,8 +13,8 @@ Insert_Rao_Vat_Dien_Thoai_May_Tinh($provinces);
 Insert_Rao_Vat_May_Quay_Phim($provinces);
 Insert_Rao_Vat_Ban_O_To_Cu($provinces);
 Insert_Rao_Vat_Ban_Xe_May_Cu($provinces);
-Insert_Rao_Vat_Cay_Canh($provinces) ;
-Insert_Rao_Vat_Cay_Giong($provinces);
+Insert_Rao_Vat_Cay_Canh() ;
+Insert_Rao_Vat_Cay_Giong();
 // Hàm lấy dữ liệu 5 dịch vụ liên quan khách sạn
 Insert_Khach_San($provinces);
 
@@ -29,7 +29,10 @@ function GetAllProvince() {
 	$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 
 	while($row = $result->fetch_assoc()){
+
 		$province= $row["TENVUNG"];
+		if($province ==='Toàn Quốc')
+			break;
 		$id= $row["ID"];
 		if($id > 23)
 			$id= $id+1;
@@ -47,7 +50,6 @@ function GetAllProvince() {
 //key : name unsign, value :province name
 function Insert_Rao_Vat_Dat_Ban($provinces) {
 	foreach ( $provinces as $key => $value ) {
-
 		$html = file_get_html('https://muaban.net/ban-dat-'.$key.'-c31');
 		$tmp= 0.0;
 		$i=0;
@@ -328,7 +330,7 @@ function Insert_Rao_Vat_Ban_Xe_May_Cu($provinces) {
 }
 //INFO: Cây cảnh
 //key : name unsign, value :province name
-function Insert_Rao_Vat_Cay_Canh($provinces) {
+function Insert_Rao_Vat_Cay_Canh() {
 		$value ="Toàn Quốc";
 		$url="http://cayvahoa.net/cay-canh";
 
@@ -377,7 +379,7 @@ function Insert_Rao_Vat_Cay_Canh($provinces) {
 
 //INFO: Cây giống
 //key : name unsign, value :province name
-function Insert_Rao_Vat_Cay_Giong($provinces) {
+function Insert_Rao_Vat_Cay_Giong() {
 		$value ="Toàn Quốc";
 		$url="http://sieuthinhanong.vn/";
 
