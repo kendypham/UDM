@@ -3,7 +3,7 @@
 include('simple_html_dom.php');
 include('db_conf.php');
 include('common.php');
-
+set_time_limit(0);
 $provinces= GetAllprovince(); 
 #region
 RemoveAllPrice();

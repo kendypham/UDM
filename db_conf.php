@@ -2,7 +2,7 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'UDM');
 define('DB_USER', 'root');
-define('DB_PASSWORD', 'swiTmmiizcXJ');
+define('DB_PASSWORD', '');
 // swiTmmiizcXJ
 $link = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD);
 if(!$link){
@@ -15,8 +15,6 @@ if(!$db_selected) {
 }  
 //Khắc phục Lỗi font tiếng Việt
 mysqli_query($link, "SET NAMES 'utf8'");
-
-//Insert gia dich vu
 
 function FindIDProvince($province){
 
