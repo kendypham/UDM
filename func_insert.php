@@ -3,19 +3,20 @@
 include('simple_html_dom.php');
 include('db_conf.php');
 include('common.php');
-ini_set('max_execution_time', 0); 
+set_time_limit(0);
 $provinces= GetAllprovince(); 
 #region
-RemoveAllPrice();
-Insert_Rao_Vat_Dat_Ban($provinces);
-Insert_Rao_Vat_Nha_Ban($provinces);
-Insert_Rao_Vat_Dien_Thoai_May_Tinh($provinces);
-Insert_Rao_Vat_May_Quay_Phim($provinces);
-Insert_Rao_Vat_Ban_O_To_Cu($provinces);
-Insert_Rao_Vat_Ban_Xe_May_Cu($provinces);
-Insert_Rao_Vat_Cay_Canh() ;
-Insert_Rao_Vat_Cay_Giong();
+// RemoveAllPrice();
+// Insert_Rao_Vat_Dat_Ban($provinces);
+// Insert_Rao_Vat_Nha_Ban($provinces);
+// Insert_Rao_Vat_Dien_Thoai_May_Tinh($provinces);
+// Insert_Rao_Vat_May_Quay_Phim($provinces);
+// Insert_Rao_Vat_Ban_O_To_Cu($provinces);
+// Insert_Rao_Vat_Ban_Xe_May_Cu($provinces);
+// Insert_Rao_Vat_Cay_Canh() ;
+// Insert_Rao_Vat_Cay_Giong();
 // Hàm lấy dữ liệu 5 dịch vụ liên quan khách sạn
+Delete_Khach_San();
 Insert_Khach_San($provinces);
 
 #endregion
@@ -45,6 +46,10 @@ function GetAllProvince() {
 		}
 	}	
 	return $a;
+}
+function Delete_Khach_San(){
+	$query = "DELETE FROM `BANGGIA` WHERE `BANGGIA`.`ID_DICHVU` = 86 or `BANGGIA`.`ID_DICHVU` = 87 or `BANGGIA`.`ID_DICHVU` = 88 or `BANGGIA`.`ID_DICHVU` = 89 or `BANGGIA`.`ID_DICHVU` = 90 or `BANGGIA`.`ID_DICHVU` = 91  ";
+	$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 }
 //INFO: Rao vặt: Đất bán
 //key : name unsign, value :province name

@@ -1,0 +1,14 @@
+-Giao diện:
+	-	Admin:
+		+	Trang chủ quản lí gồm list dịch vụ , check để chọn dịch vụ cập nhật (dv nào cập nhật thì xóa dữ liệu cũ dv đó đi ): (hardcode id dịch vụ, gửi dịch vụ theo id).
+		+	Hiển thị thời gian update data lần cuối.
+	-	Client:
+		+ Giao diện search , trả về kết quả bên dưới ko chuyển trang mới.
+Xử lí: 
+
+	- Hiển thị log insert vào file : log.txt không show ra web. Web chỉ hiển thị success/fail+ error().
+	- Thu thập dữ liệu các dịch vụ. 
+		Lưu ý:
+			+ Dv không rõ , ko tra được :bỏ
+			+ Dv tìm không có giá trị từng tỉnh: chỉ ghi vô "Toàn Quốc" . Lúc lấy data truy vấn qua id 64.
+	- Những dịch vụ phổ biến crawl nhiều trang rồi map dữ liệu vào nếu dữ liệu cũ trống .
