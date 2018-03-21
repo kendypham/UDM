@@ -61,3 +61,6 @@ include("db_conf.php")
  	</div> <!-- Hết wrapform -->
 </body>
 </html>
+
+
+	<!-- echo " <input type='checkbox' name='vehicle' value='Bike'> ".$row['TENDICHVU']."<br>"; -->s

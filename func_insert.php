@@ -1,10 +1,9 @@
 <?php
 // example of how to use basic selector to retrieve HTML contents
-include('simple_html_dom.php');
+include('assets/libs/simple_html_dom.php');
 include('db_conf.php');
 include('common.php');
 set_time_limit(0);
-$provinces= GetAllprovince(); 
 #region
 // RemoveAllPrice();
 // Insert_Rao_Vat_Dat_Ban($provinces);
@@ -15,10 +14,9 @@ $provinces= GetAllprovince();
 // Insert_Rao_Vat_Ban_Xe_May_Cu($provinces);
 // Insert_Rao_Vat_Cay_Canh() ;
 // Insert_Rao_Vat_Cay_Giong();
-// Hàm lấy dữ liệu 5 dịch vụ liên quan khách sạn
-Delete_Khach_San();
-Insert_Khach_San($provinces);
-
+// // Hàm lấy dữ liệu 5 dịch vụ liên quan khách sạn
+// Delete_Khach_San();
+// Insert_Khach_San($provinces);
 #endregion
 
 //Các hàm hỗ trợ
@@ -47,8 +45,19 @@ function GetAllProvince() {
 	}	
 	return $a;
 }
-function Delete_Khach_San(){
-	$query = "DELETE FROM `BANGGIA` WHERE `BANGGIA`.`ID_DICHVU` = 86 or `BANGGIA`.`ID_DICHVU` = 87 or `BANGGIA`.`ID_DICHVU` = 88 or `BANGGIA`.`ID_DICHVU` = 89 or `BANGGIA`.`ID_DICHVU` = 90 or `BANGGIA`.`ID_DICHVU` = 91  ";
+
+function RemovePriceByID_DichVu($arrServices){
+	$query="";
+	$first = 1;
+	foreach ($arrServices as $id_services) {
+		if($first){
+			$query = "DELETE FROM `BANGGIA` WHERE `BANGGIA`.`ID_DICHVU` = '$id_services'";
+			$first= -1;
+		}
+		else{
+			$query=$query." or `BANGGIA`.`ID_DICHVU` = '$id_services' ";
+		}
+	}
 	$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 }
 //INFO: Rao vặt: Đất bán
@@ -335,7 +344,7 @@ function Insert_Rao_Vat_Ban_Xe_May_Cu($provinces) {
 }
 //INFO: Cây cảnh
 //key : name unsign, value :province name
-function Insert_Rao_Vat_Cay_Canh() {
+function Insert_Cay_Canh() {
 		$value ="Toàn Quốc";
 		$url="http://cayvahoa.net/cay-canh";
 
@@ -384,7 +393,7 @@ function Insert_Rao_Vat_Cay_Canh() {
 
 //INFO: Cây giống
 //key : name unsign, value :province name
-function Insert_Rao_Vat_Cay_Giong() {
+function Insert_Cay_Giong() {
 		$value ="Toàn Quốc";
 		$url="http://sieuthinhanong.vn/";
 

@@ -18,7 +18,7 @@ mysqli_query($link, "SET NAMES 'utf8'");
 
 function FindIDProvince($province){
 
-$query = "SELECT ID FROM VUNG WHERE TENVUNG LIKE '%$province%'";
+$query = "SELECT ID FROM VUNG WHERE TENVUNG LIKE '$province'";
 $result_id_vung = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 $row = $result_id_vung->fetch_assoc();
 return $row["ID"];
@@ -26,7 +26,7 @@ return $row["ID"];
 
 function FindIDService($service){
 
-$query = "SELECT ID FROM DICHVU WHERE TENDICHVU LIKE '%$service%'";
+$query = "SELECT ID FROM DICHVU WHERE TENDICHVU LIKE '$service'";
 $result_id_dichvu = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 $row = $result_id_dichvu->fetch_assoc();
 return $row["ID"];
@@ -67,7 +67,15 @@ $query1= "ALTER TABLE DICHVU AUTO_INCREMENT=1";
 $result1 = mysqli_query($GLOBALS['link'], $query1) or die(mysqli_error($GLOBALS['link'])."[".$query1."]");
 
 }
+function LoginAdministactor($username,$password){
+	$query1= "SELECT * FROM USERS WHERE (username LIKE '$username') AND (password LIKE '$password') AND (permission LIKE '1')";
+	$users = mysqli_query($GLOBALS['link'], $query1) or die(mysqli_error($GLOBALS['link'])."[".$query1."]");
 
+	if(mysqli_num_rows($users)!=1) return "Login failed";
+
+	$row = $users->fetch_assoc();
+	return "success";
+}
 function RemoveAllData(){
 	RemoveAllPrice();
 	RemoveAllProvince();
