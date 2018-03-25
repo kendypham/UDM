@@ -54,6 +54,8 @@ if (isset( $a) ) {
 				break;
 		}
 	}
+	 echo "<script>alert('Update successfully'); location.href='logs';</script>";
+
 }
 
 

@@ -101,7 +101,7 @@ function Insert_Rao_Vat_Dat_Ban($provinces) {
 	//sleep(1);
 		unset($html);
 	}
-	echo "<br> ----------------Updated: \"Rao vặt: Đất bán\"------------------ ";
+	logErr("---------------Updated: \"Rao vặt: Đất bán\"------------------ ");
 }
 //INFO: Rao vặt: Điện thoại/Máy tính/Laptop
 //key : name unsign, value :province name
@@ -183,7 +183,7 @@ function Insert_Rao_Vat_Dien_Thoai_May_Tinh($provinces) {
 		unset($html);
 		unset($html1);
 	}
-	echo "<br> ----------------Updated: \"Rao vặt: Điện thoại/Máy tính/Laptop\"------------------ ";
+	logErr("----------------Updated: \"Rao vặt: Điện thoại/Máy tính/Laptop\"------------------ ");
 }
 
 
@@ -224,7 +224,7 @@ function Insert_Rao_Vat_May_Quay_Phim($provinces) {
 	//sleep(1);
 		unset($html);
 	}
-		echo "<br> ----------------Updated: \"Rao vặt: máy quay phim, chụp hình\"------------------ ";
+		logErr("--------------Updated: \"Rao vặt: máy quay phim, chụp hình\"------------------ ");
 }
 
 //INFO: Rao vặt: Nhà bán
@@ -264,7 +264,7 @@ function Insert_Rao_Vat_Nha_Ban($provinces) {
 	//sleep(1);
 		unset($html);
 	}
-	echo "<br> ----------------Updated: \"Rao vặt: Nhà bán\"------------------ ";
+	logErr("-------------Updated: \"Rao vặt: Nhà bán\"------------------ ");
 }
 
 //INFO: Rao vặt: xe hơi cũ
@@ -304,7 +304,7 @@ function Insert_Rao_Vat_Ban_O_To_Cu($provinces) {
 	//sleep(1);
 		unset($html);
 	}
-	echo "<br> ----------------Updated: \"Rao vặt: xe hơi cũ\"------------------ ";
+	logErr("-----------------Updated: \"Rao vặt: xe hơi cũ\"------------------ ");
 }
 
 //INFO: Rao vặt: xe máy cũ
@@ -345,7 +345,7 @@ function Insert_Rao_Vat_Ban_Xe_May_Cu($provinces) {
 		unset($html);
 	
 	}
-		echo "<br> ----------------Updated: \"Rao vặt: xe máy cũ\"------------------ ";
+		logErr("----------------Updated: \"Rao vặt: xe máy cũ\"------------------ ");
 }
 //INFO: Cây cảnh
 //key : name unsign, value :province name
@@ -393,7 +393,7 @@ function Insert_Cay_Canh() {
 	//sleep(1);
 		unset($html);
 	
-	echo "<br> ----------------Updated: \"Cây cảnh\"------------------ ";
+	logErr("----------------Updated: \"Cây cảnh\"------------------ ");
 }
 
 //INFO: Cây giống
@@ -442,8 +442,7 @@ function Insert_Cay_Giong() {
 		InsertData($value,"Cây giống",$tmp) ;
 	//sleep(1);
 		unset($html);
-	
-	echo "<br> ----------------Updated: \"Cây giống\"------------------ ";
+		logErr("----------------Updated: \"Cây giống\"------------------ ");
 }
 
 //INFO: Khách sạn chung
@@ -564,7 +563,8 @@ function Insert_Khach_San_Khong_Danh_Sao($currentProvince,$currentPath){
 		InsertData($currentProvince,"Khách sạn không đánh sao",$tmp) ;
 	//sleep(1);
 		unset($html);
-	echo "<br> ----------------Updated: \"Khách sạn không đánh sao\"------------------ ";
+
+	logErr("----------------Updated: \"Khách sạn không đánh sao\"------------------ ");
 }
 
 //INFO: Khách sạn 01 sao
@@ -607,11 +607,12 @@ function Insert_Khach_San_01_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
-		echo '<br> Khách sạn 01 sao'.$currentProvince .": ". $tmp ;
+		
 		InsertData($currentProvince,"Khách sạn 01 sao",$tmp) ;
+		//echo '<br> Khách sạn 01 sao'.$currentProvince .": ". $tmp ;
 	//sleep(1);
 		unset($html);
-	echo "<br> ----------------Updated: \"Khách sạn 01 sao\"------------------ ";
+	logErr("----------------Updated: \"Khách sạn 01 sao\"------------------ ");
 }
 
 //INFO: Khách sạn 02 sao
@@ -654,11 +655,10 @@ function Insert_Khach_San_02_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
-		echo '<br> Khách sạn 02 sao'.$currentProvince .": ". $tmp ;
 		InsertData($currentProvince,"Khách sạn 02 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
-	echo "<br> ----------------Updated: \"Khách sạn 02 sao\"------------------ ";
+	logErr("----------------Updated: \"Khách sạn 02 sao\"------------------ ");
 }
 //INFO: Khách sạn 03 sao
 //provinces :province name
@@ -700,11 +700,10 @@ function Insert_Khach_San_03_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
-		echo '<br> Khách sạn 03 sao'.$currentProvince .": ". $tmp ;
 		InsertData($currentProvince,"Khách sạn 03 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
-	echo "<br> ----------------Updated: \"Khách sạn 03 sao\"------------------ ";
+	logErr("-----------------Updated: \"Khách sạn 03 sao\"------------------ ");
 }
 //INFO: Khách sạn 04 sao
 //provinces :province name
@@ -746,11 +745,10 @@ function Insert_Khach_San_04_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
-		echo '<br> Khách sạn 04 sao'.$currentProvince .": ". $tmp ;
 		InsertData($currentProvince,"Khách sạn 04 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
-	echo "<br> ----------------Updated: \"Khách sạn 04 sao\"------------------ ";
+	logErr("----------------Updated: \"Khách sạn 04 sao\"------------------ ");
 }
 //INFO: Khách sạn 05 sao
 //provinces :province name
@@ -792,11 +790,10 @@ function Insert_Khach_San_05_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
-		echo '<br> Khách sạn 05 sao'.$currentProvince .": ". $tmp ;
 		InsertData($currentProvince,"Khách sạn 05 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
-	echo "<br> ----------------Updated: \"Khách sạn 05 sao\"------------------ ";
+	logErr("------------------Updated: \"Khách sạn 05 sao\"------------------ ");
 }
 
 ?>

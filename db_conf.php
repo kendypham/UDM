@@ -43,7 +43,7 @@ $result3 = mysqli_query($GLOBALS['link'], $query3) or die(mysqli_error($GLOBALS[
 $id_province = FindIDProvince($province);
 $id_service = FindIDService($service);
 $query = "INSERT INTO `BANGGIA` (`ID`, `ID_DICHVU`, `ID_VUNG`, `GIA`)  VALUES (NULL,'$id_service', '$id_province','$price')";
-echo "<br> ::::". $query;
+logErr($query);
 $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 }
 
@@ -71,7 +71,6 @@ $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['l
 $query1= "ALTER TABLE DICHVU AUTO_INCREMENT=1";
 $result1 = mysqli_query($GLOBALS['link'], $query1) or die(mysqli_error($GLOBALS['link'])."[".$query1."]");
 
-
 }
 function LoginAdministactor($username,$password){
 	$query1= "SELECT * FROM USERS WHERE (username LIKE '$username') AND (password LIKE '$password') AND (permission LIKE '1')";
@@ -88,7 +87,14 @@ function RemoveAllData(){
 	RemoveAllService();
 	ResetAutoIncrement();
 }
-
+function logErr($data){
+$todate= date('d-m-Y'); 
+  $logPath ="logs/".$todate."_log.txt";
+  $mode = (!file_exists($logPath)) ? 'w':'a';
+  $logfile = fopen($logPath, $mode);
+  fwrite($logfile, "\r\n". $data);
+  fclose($logfile);
+}
 ?>
 
 
