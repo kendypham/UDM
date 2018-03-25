@@ -1,6 +1,4 @@
-$('form.login_admin').on('submit',function(){
- 
-
+$('#formLogin').on('submit',function(){
    var  username= $("[name='username']").val(),
         password= $("[name='password']").val();
    var request = {
@@ -14,10 +12,32 @@ $('form.login_admin').on('submit',function(){
 			data :request,
 			success: function(response) {
 				//Login success
-				if(!response.trim().localeCompare("success"))
-					console.log("OK");
+				console.log(response.trim());
+				//=0-> true
+				if(response.trim().localeCompare("success")==0){
+					alert("Login successfully");
+					location.href="manage.php";
+					//console.log("sufwfewrgeccess");
+				}
+				else{
+					 alert("Login failed");
+				}
 			}
 		});
 	
   return false;
 })
+ $("#btnLogin").click(function(event) {
+
+    //Fetch form to apply custom Bootstrap validation
+    var form = $("#formLogin")
+
+    if (form[0].checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    
+    form.addClass('was-validated');
+  });
+
+

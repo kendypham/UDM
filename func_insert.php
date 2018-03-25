@@ -3,6 +3,11 @@
 include('assets/libs/simple_html_dom.php');
 include('db_conf.php');
 include('common.php');
+if (!isset($_SESSION['username'])){
+	echo "<script type='text/javascript'>alert('Login failed');</script>";
+	echo ("<script>location.href='login.php'</script>");
+	return;
+ }
 set_time_limit(0);
 #region
 // RemoveAllPrice();

@@ -1,5 +1,8 @@
 <?php 
 	include("db_conf.php");
+	if (!isset($_SESSION['username'])){
+    echo ("<script>location.href='login.php'</script>");
+ }
  ?>
 <!DOCTYPE html>
 
@@ -9,13 +12,15 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>button ADMIN</title>
 	<style type="text/css">
-		ol.content {
-			height: 550px ;
+		ul.content {
+			max-height: 550px ;
 			overflow: auto;
 		}
 	</style>
+
 </head>
 <body>
+	<input type="button" id="logout" value="Logout"/>
 	<form method="POST" action="func_update.php">
 		<div class="form-group" >
 				<ul class="content">
@@ -31,7 +36,15 @@
 				?>
 		  		</ul>
 		   <input type="submit" value="Update"/>
+
 		</div> <!-- hết form-group -->
 	</form>
+	<script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript">
+	 $("#logout").click(function(event) {
+	 	console.log("dsds");
+		location.href="logout.php";
+  });
+	</script>
 </body>
 </html>
