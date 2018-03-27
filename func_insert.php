@@ -3,12 +3,13 @@
 include('assets/libs/simple_html_dom.php');
 include('db_conf.php');
 include('common.php');
-if (!isset($_SESSION['username'])){
-	echo "<script type='text/javascript'>alert('Login failed');</script>";
-	echo ("<script>location.href='login.php'</script>");
-	return;
- }
 set_time_limit(0);
+
+// if (!isset($_SESSION['username'])){
+// 	echo "<script type='text/javascript'>alert('Login failed');</script>";
+// 	echo ("<script>location.href='login.php'</script>");
+// 	return;
+//  }
 #region
 // RemoveAllPrice();
 // Insert_Rao_Vat_Dat_Ban($provinces);
@@ -516,7 +517,9 @@ function Insert_Khach_San($provinces) {
 				Insert_Khach_San_04_Sao($currentProvince,$currentPath);
 				Insert_Khach_San_05_Sao($currentProvince,$currentPath);
 			}
+			sleep(1);
 		}
+	
 	}
 
 //INFO: Khách sạn không đánh sao

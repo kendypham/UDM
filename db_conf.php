@@ -3,7 +3,7 @@ session_start();
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'UDM');
 define('DB_USER', 'root');
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'Tien445566');
 // swiTmmiizcXJ
 $link = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD);
 if(!$link){
@@ -73,6 +73,7 @@ $result1 = mysqli_query($GLOBALS['link'], $query1) or die(mysqli_error($GLOBALS[
 
 }
 function LoginAdministactor($username,$password){
+	$password = hash('sha256', $password);
 	$query1= "SELECT * FROM USERS WHERE (username LIKE '$username') AND (password LIKE '$password') AND (permission LIKE '1')";
 	$users = mysqli_query($GLOBALS['link'], $query1) or die(mysqli_error($GLOBALS['link'])."[".$query1."]");
 
@@ -95,6 +96,7 @@ $todate= date('d-m-Y');
   fwrite($logfile, "\r\n". $data);
   fclose($logfile);
 }
+
 ?>
 
 
