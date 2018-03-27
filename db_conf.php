@@ -3,7 +3,9 @@ session_start();
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'UDM');
 define('DB_USER', 'root');
-define('DB_PASSWORD', 'Tien445566');
+define('DB_PASSWORD', '');
+// Hide error ^^
+set_error_handler("customError");
 // swiTmmiizcXJ
 $link = mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD);
 if(!$link){
@@ -96,7 +98,9 @@ $todate= date('d-m-Y');
   fwrite($logfile, "\r\n". $data);
   fclose($logfile);
 }
-
+function customError($errno, $errstr, $errfile, $errline) {
+  echo "Error!";
+}
 ?>
 
 

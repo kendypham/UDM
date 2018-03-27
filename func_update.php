@@ -1,7 +1,9 @@
 <?php 
 //include 'db_conf.php';
 include 'func_insert.php';
-$a = $_REQUEST['service'];
+
+ $a = $_REQUEST['service'];
+
 
 // echo "<script>console.log('" . json_encode($a) . "');</script>";
 if(!isset($a)) return;
