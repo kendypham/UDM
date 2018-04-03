@@ -5,11 +5,11 @@ include('db_conf.php');
 include('common.php');
 set_time_limit(0);
 
-// if (!isset($_SESSION['username'])){
-// 	echo "<script type='text/javascript'>alert('Login failed');</script>";
-// 	echo ("<script>location.href='login.php'</script>");
-// 	return;
-//  }
+if (!isset($_SESSION['username'])){
+	echo "<script type='text/javascript'>alert('Login failed');</script>";
+	echo ("<script>location.href='login.php'</script>");
+	return;
+ }
 #region
 // RemoveAllPrice();
 // Insert_Rao_Vat_Dat_Ban($provinces);
