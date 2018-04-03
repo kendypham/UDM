@@ -35,6 +35,20 @@ $row = $result_id_dichvu->fetch_assoc();
 return $row["ID"];
 }
 
+function findProvince($id_p){
+$query = "SELECT TENVUNG FROM VUNG WHERE ID = $id_p";
+$result_vung = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+$row = $result_vung->fetch_assoc();
+return $row['TENVUNG'];
+}
+
+function findService($id_s){
+$query = "SELECT TENDICHVU FROM DICHVU WHERE ID = $id_s";
+$result_dichvu = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+$row = $result_dichvu->fetch_assoc();
+return $row["TENDICHVU"];
+}
+
 //Thêm giá dịch vụ với tên vùng , dịch vụ, giá
 function InsertData($province, $service,$price){
 
