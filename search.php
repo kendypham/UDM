@@ -1,5 +1,5 @@
 <?php
-include("db_conf.php")
+include 'db_conf.php';
 ?>
 
 <!DOCTYPE html>
@@ -41,7 +41,7 @@ include("db_conf.php")
 			<div class="col-sm-6 ">
 				<div>
 					<h4><span class="fas fa-map fa-md text-info"></span> Địa điểm</h4>
-					<select class="position-relative bg-white" name="province" id="p" style="top: -5px;">
+					<select class="position-relative bg-white" name="province" id="prov" style="top: -5px;">
 					<?php
 						$sql1 = "SELECT * FROM VUNG WHERE 1";
 
@@ -55,7 +55,7 @@ include("db_conf.php")
 				</div>
 				<div>
 					<h4><span class="fas fa-money-bill-alt fa-md text-info"></span> Dịch vụ</h4>
-					<select class="position-relative bg-white" name="service" id="s" style="top: -5px;">
+					<select class="position-relative bg-white" name="service" id="serv" style="top: -5px;">
 						<?php
 							$sql1 = "SELECT * FROM DICHVU WHERE 1";
 
@@ -68,9 +68,6 @@ include("db_conf.php")
 					</select>	
 				</div>
 				<button class="btn text-info bg-white position-relative" id="sm" style="border: 1px solid; top: 5px;">Tính giá</button>
-				<div class="">
-					
-				</div>
 				<div class="position-relative" id="results" style="top: 15px;">
 				</div>
 			</div>
@@ -78,15 +75,15 @@ include("db_conf.php")
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#p").val(27);
-			$("#s").val(86);
+			$("#prov").val(27);
+			$("#serv").val(86);
 			
 			$("#sm").click(function(){
-				var $p = $("#p").val();
-				p = p.toString();
-				var $s = $("#s").val();
-				s = s.toString();
-				$.get("search_ajax.php?q=" + $p + ":" + $s, function(data, status){
+				var $p = $("#prov").val();
+				$p = $p.toString();
+				var $s = $("#serv").val();
+				$s = $s.toString();
+				$.get("search_ajax.php?q=" + $p + "%26" + $s, function(data, status){
 					if (status != "success"){
 						$("#results").html("<p>Failed! Error:" + status + "</p>\n");
 					}

@@ -18,12 +18,10 @@ if (isset($_SESSION['username'])){
   <div class="container ">
     <div class="row">
         <div class="col-md-9 m-auto">
-            <h2 class="text-center text-white mb-4">Bootstrap 4 Login Form</h2>
             <div class="row">
                 <div class="col-md-9 mx-auto">
-
                     <!-- form card login -->
-                    <div class="card rounded-0">
+                    <div class="card rounded-0 position-relative" style="top: 20%;">
                         <div class="card-header">
                             <h3 class="mb-0">Login</h3>
                         </div>
@@ -52,7 +50,7 @@ if (isset($_SESSION['username'])){
                         <!--/card-block-->
                     </div>
                     <!-- /form card login -->
-
+                    <div class="alert alert-danger invisible" id="failAlert" style="margin-top: 25%;">Login Failed!</div>
                 </div>
 
             </div>
