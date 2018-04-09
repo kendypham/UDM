@@ -1,10 +1,10 @@
 $('#formLogin').on('submit',function(){
-   var  username= $("[name='username']").val(),
-        password= $("[name='password']").val();
-   var request = {
-    	username : username,
+	var username= $("[name='username']").val(),
+		password= $("[name='password']").val();
+	var request = {
+		username : username,
 		password : password
-    };
+	};
 	
 	$.ajax({
 			url: "func_login.php",
@@ -15,29 +15,29 @@ $('#formLogin').on('submit',function(){
 				console.log(response.trim());
 				//=0-> true
 				if(response.trim().localeCompare("success")==0){
-					alert("Login successfully");
 					location.href="manage.php";
 					//console.log("sufwfewrgeccess");
+					$("#failAlert").addClass("invisible");
 				}
 				else{
-					 alert("Login failed");
+					$("#failAlert").removeClass("invisible");
 				}
 			}
 		});
 	
   return false;
 })
- $("#btnLogin").click(function(event) {
+$("#btnLogin").click(function(event) {
 
-    //Fetch form to apply custom Bootstrap validation
-    var form = $("#formLogin")
+	//Fetch form to apply custom Bootstrap validation
+	var form = $("#formLogin")
 
-    if (form[0].checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-    
-    form.addClass('was-validated');
-  });
+	if (form[0].checkValidity() === false) {
+	  event.preventDefault()
+	  event.stopPropagation()
+	}
+	
+	form.addClass('was-validated');
+});
 
 
