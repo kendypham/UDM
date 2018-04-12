@@ -12,7 +12,7 @@ if (isset($_SESSION['username'])){
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 
-  <title>Manager</title>
+  <title>Login Administrator</title>
 </head>
 <body>
   <div class="container ">
@@ -25,6 +25,8 @@ if (isset($_SESSION['username'])){
                         <div class="card-header">
                             <h3 class="mb-0">Login</h3>
                         </div>
+                        <div class="alert alert-danger d-none " id="failAlert" >Login Failed!</div>
+                         <div class="alert alert-success d-none " id="successAlert" >Login Successfully!</div>
                         <div class="card-body">
                             <form class="form" role="form" id="formLogin" method="POST">
                                 <div class="form-group">
@@ -50,7 +52,7 @@ if (isset($_SESSION['username'])){
                         <!--/card-block-->
                     </div>
                     <!-- /form card login -->
-                    <div class="alert alert-danger invisible" id="failAlert" style="margin-top: 25%;">Login Failed!</div>
+                  
                 </div>
 
             </div>
