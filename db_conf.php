@@ -116,7 +116,7 @@ function RemovePriceByID_DichVu($arrServices){
 	$query="";
 	$first = 1;
 	foreach ($arrServices as $id_services) {
-		$id_services = mysqli_real_escape_string($link, $id_services);
+		$id_services = mysqli_real_escape_string($GLOBALS['link'], $id_services);
 		if($first){
 			$query = "DELETE FROM `BANGGIA` WHERE `BANGGIA`.`ID_DICHVU` = '$id_services'";
 			$first= -1;
