@@ -8,18 +8,22 @@ mysqli_select_db($link,"BANGGIA");
 $query = "SELECT * FROM BANGGIA WHERE ID_DICHVU = $id_s ORDER BY ID_VUNG DESC LIMIT 1";
 $results = mysqli_query($link, $query) or die(mysqli_error($link)."[".$query."]");
 
-while ($row = $results->fetch_assoc()){
-	if(isset($row['ID'])){
-		echo "<tr>\n<td>".findProvince(64)."</td>\n<td>".findService($id_s)."</td>\n<td>".$row['GIA']."VND</td>\n</tr>\n";
+$row = $results->fetch_assoc();
+if(isset($row['ID'])){
+	if($row['ID']==64){
+		echo "<tr>\n<td>".findProvince(64)."</td>\n<td>".findService($id_s)."</td>\n<td>".$row['GIA']." VND</td>\n</tr>\n";
 	}
 	else{
 		$query = "SELECT * FROM BANGGIA WHERE ID_DICHVU = $id_s AND ID_VUNG = $id_p";
+	//	 echo "<script>console.log( 'Debug Objects: " . $query . "' );</script>";
 		$results = mysqli_query($link, $query) or die(mysqli_error($link)."[".$query."]");
 		
 		while ($row = $results->fetch_assoc()){
-			echo "<tr>\n<td>".findProvince($id_p)."</td>\n<td>".findService($id_s)."</td>\n<td>".$row['GIA']."VND</td>\n</tr>\n";
+			echo "<tr>\n<td>".findProvince($id_p)."</td>\n<td>".findService($id_s)."</td>\n<td>".$row['GIA']." VND</td>\n</tr>\n";
 		}
 	}
-	mysqli_close($link);
-}
+}else
+	echo "Empty";
+	
+mysqli_close($link);
 ?>

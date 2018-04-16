@@ -12,7 +12,7 @@ $provinces= GetAllprovince();
 RemovePriceByID_DichVu($a);
 $ks="";
 foreach( $a as $id_service ) {
-	echo "<script>console.log(' Item:," . $id_service . ",');</script>";
+	//echo "<script>console.log(' Item:," . $id_service . ",');</script>";
 		//Hàm insert ks xử lí chung cho 6 dịch vụ liên quan
 	if($ks)
 		if($id_service==86||$id_service==87||$id_service==88||$id_service==89||$id_service==90||$id_service==91)
@@ -38,7 +38,7 @@ foreach( $a as $id_service ) {
 			Insert_Rao_Vat_Dat_Ban($provinces);
 			break;
 			case 120:
-			echo "<script>console.log(' bat dau:," . $id_service . ",');</script>";
+			//echo "<script>console.log(' bat dau:," . $id_service . ",');</script>";
 			Insert_Rao_Vat_Dien_Thoai_May_Tinh($provinces);
 			break;
 			case 122:

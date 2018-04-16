@@ -97,7 +97,7 @@ function Insert_Rao_Vat_Dat_Ban($provinces) {
 		if($i)
 			$tmp=$tmp/$i;
 		//echo '<br> '.$value .": ". $tmp ;
-
+if($tmp!=0)
 		InsertData($value,"Rao vặt: Đất bán",$tmp) ;
 	//sleep(1);
 		unset($html);
@@ -178,7 +178,7 @@ function Insert_Rao_Vat_Dien_Thoai_May_Tinh($provinces) {
 
 
 			//echo '<br> '.$value .": ". $tmp ;
-
+if($result!=0)
 		InsertData($value,"Rao vặt: Điện thoại/Máy tính/Laptop",$result) ;
 	//sleep(1);
 		unset($html);
@@ -220,8 +220,8 @@ function Insert_Rao_Vat_May_Quay_Phim($provinces) {
 		if($i)
 			$tmp=$tmp/$i;
 		//echo '<br> '.$value .": ". $tmp ;
-
-		InsertData($value,"Rao vặt: máy quay phim, chụp hình",$tmp) ;
+		if($tmp!=0)
+			InsertData($value,"Rao vặt: máy quay phim, chụp hình",$tmp) ;
 	//sleep(1);
 		unset($html);
 	}
@@ -260,7 +260,7 @@ function Insert_Rao_Vat_Nha_Ban($provinces) {
 		if($i)
 			$tmp=$tmp/$i;
 			//echo '<br> '.$value .": ". $tmp ;
-
+	if($tmp!=0)
 		InsertData($value,"Rao vặt: Nhà bán",$tmp) ;
 	//sleep(1);
 		unset($html);
@@ -300,7 +300,7 @@ function Insert_Rao_Vat_Ban_O_To_Cu($provinces) {
 		if($i)
 			$tmp=$tmp/$i;
 			//echo '<br> '.$value .": ". $tmp ;
-
+	if($tmp!=0)
 		InsertData($value,"Rao vặt: xe hơi cũ",$tmp) ;
 	//sleep(1);
 		unset($html);
@@ -340,7 +340,7 @@ function Insert_Rao_Vat_Ban_Xe_May_Cu($provinces) {
 		if($i)
 			$tmp=$tmp/$i;
 			//echo '<br> '.$value .": ". $tmp ;
-
+	if($tmp!=0)
 		InsertData($value,"Rao vặt: xe máy cũ",$tmp) ;
 	//sleep(1);
 		unset($html);
@@ -390,6 +390,7 @@ function Insert_Cay_Canh() {
 		if($i)
 			$tmp=$tmp/$i;
 		//echo '<br> '.$value .": ". $tmp ;
+	if($tmp!=0)
 		InsertData($value,"Cây cảnh",$tmp) ;
 	//sleep(1);
 		unset($html);
@@ -440,6 +441,7 @@ function Insert_Cay_Giong() {
 		if($i)
 			$tmp=$tmp/$i;
 		//echo '<br> '.$value .": ". $tmp ;
+	if($tmp!=0)
 		InsertData($value,"Cây giống",$tmp) ;
 	//sleep(1);
 		unset($html);
@@ -563,7 +565,8 @@ function Insert_Khach_San_Khong_Danh_Sao($currentProvince,$currentPath){
 		if($i)
 			$tmp=$tmp/$i;
 		echo '<br> Insert_Khach_San_Khong_Danh_Sao'.$currentProvince .": ". $tmp ;
-		InsertData($currentProvince,"Khách sạn không đánh sao",$tmp) ;
+		if($tmp!=0)
+			InsertData($currentProvince,"Khách sạn không đánh sao",$tmp) ;
 	//sleep(1);
 		unset($html);
 
@@ -610,7 +613,7 @@ function Insert_Khach_San_01_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
-		
+	if($tmp!=0)	
 		InsertData($currentProvince,"Khách sạn 01 sao",$tmp) ;
 		//echo '<br> Khách sạn 01 sao'.$currentProvince .": ". $tmp ;
 	//sleep(1);
@@ -658,6 +661,7 @@ function Insert_Khach_San_02_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
+		if($tmp!=0)
 		InsertData($currentProvince,"Khách sạn 02 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
@@ -703,6 +707,7 @@ function Insert_Khach_San_03_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
+		if($tmp!=0)
 		InsertData($currentProvince,"Khách sạn 03 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
@@ -748,7 +753,8 @@ function Insert_Khach_San_04_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
-		InsertData($currentProvince,"Khách sạn 04 sao",$tmp) ;
+		if($tmp!=0)
+			InsertData($currentProvince,"Khách sạn 04 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
 	logErr("----------------Updated: \"Khách sạn 04 sao\"------------------ ");
@@ -793,6 +799,7 @@ function Insert_Khach_San_05_Sao($currentProvince,$currentPath){
 		}
 		if($i)
 			$tmp=$tmp/$i;
+		if($tmp!=0)
 		InsertData($currentProvince,"Khách sạn 05 sao",$tmp) ;
 	//sleep(1);
 		unset($html);

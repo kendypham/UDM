@@ -1,3 +1,4 @@
+
 $('#formLogin').on('submit',function(){
 	var username= $("[name='username']").val(),
 		password= $("[name='password']").val();
@@ -5,7 +6,7 @@ $('#formLogin').on('submit',function(){
 		username : username,
 		password : password
 	};
-	
+
 	$.ajax({
 			url: "func_login.php",
 			type: "POST",
@@ -18,7 +19,8 @@ $('#formLogin').on('submit',function(){
 					//console.log("sufwfewrgeccess");
 					$("#failAlert").addClass("d-none");
 					$("#successAlert").removeClass("d-none");
-					setTimeout(function(){location.href="manage.php";}, 2000);
+					setTimeout(function(){location.href="manage.php";}, 500);
+
 				}
 				else{
 					$("#successAlert").addClass("d-none");

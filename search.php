@@ -23,7 +23,6 @@ include 'db_conf.php';
 			-moz-appearance:none;*/
 
 		}
-
 		select:focus {
 			outline: none;
 		}
