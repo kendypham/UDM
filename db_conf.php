@@ -65,9 +65,11 @@ $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['l
 
 function RemoveAllPrice(){
 $query = "DELETE FROM `BANGGIA` WHERE 1";
+
 $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 
 $query2= "ALTER TABLE BANGGIA AUTO_INCREMENT=1";
+
 $result2 = mysqli_query($GLOBALS['link'], $query2) or die(mysqli_error($GLOBALS['link'])."[".$query2."]");
 }
 
@@ -90,6 +92,8 @@ $result1 = mysqli_query($GLOBALS['link'], $query1) or die(mysqli_error($GLOBALS[
 }
 function LoginAdministactor($username,$password){
 	$password = hash('sha256', $password);
+	$username = mysqli_real_escape_string($GLOBALS['link'], $username);
+	$password = mysqli_real_escape_string($GLOBALS['link'], $password);
 	$query1= "SELECT * FROM USERS WHERE (username LIKE '$username') AND (password LIKE '$password') AND (permission LIKE '1')";
 	$users = mysqli_query($GLOBALS['link'], $query1) or die(mysqli_error($GLOBALS['link'])."[".$query1."]");
 
