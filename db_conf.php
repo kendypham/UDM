@@ -112,6 +112,21 @@ $todate= date('d-m-Y');
   fwrite($logfile, "\r\n". $data);
   fclose($logfile);
 }
+function RemovePriceByID_DichVu($arrServices){
+	$query="";
+	$first = 1;
+	foreach ($arrServices as $id_services) {
+		$id_services = mysqli_real_escape_string($link, $id_services);
+		if($first){
+			$query = "DELETE FROM `BANGGIA` WHERE `BANGGIA`.`ID_DICHVU` = '$id_services'";
+			$first= -1;
+		}
+		else{
+			$query=$query." or `BANGGIA`.`ID_DICHVU` = '$id_services' ";
+		}
+	}
+	$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+}
 function customError($errno, $errstr, $errfile, $errline) {
   echo "Error!";
 }

@@ -52,20 +52,7 @@ function GetAllProvince() {
 	return $a;
 }
 
-function RemovePriceByID_DichVu($arrServices){
-	$query="";
-	$first = 1;
-	foreach ($arrServices as $id_services) {
-		if($first){
-			$query = "DELETE FROM `BANGGIA` WHERE `BANGGIA`.`ID_DICHVU` = '$id_services'";
-			$first= -1;
-		}
-		else{
-			$query=$query." or `BANGGIA`.`ID_DICHVU` = '$id_services' ";
-		}
-	}
-	$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
-}
+
 //INFO: Rao vặt: Đất bán
 //key : name unsign, value :province name
 function Insert_Rao_Vat_Dat_Ban($provinces) {
