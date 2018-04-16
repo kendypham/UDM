@@ -31,6 +31,7 @@ foreach( $a as $id_service ) {
 			case 89:
 			case 90:
 			case 91:
+			//echo "<script>console.log($id_service);</script>";
 			Insert_Khach_San($provinces);
 			$ks=true;
 			break;
@@ -57,6 +58,6 @@ foreach( $a as $id_service ) {
 			break;
 		}
 	}
-	echo "<script>alert('Update successfully'); location.href='logs';</script>";
+	//echo "<script>alert('Update successfully'); location.href='logs';</script>";
 
 	?>

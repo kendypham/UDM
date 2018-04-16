@@ -3,7 +3,7 @@ session_start();
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'UDM');
 define('DB_USER', 'root');
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'Tien445566');
 // Hide error ^^
 //set_error_handler("customError");
 // swiTmmiizcXJ
@@ -114,18 +114,22 @@ $todate= date('d-m-Y');
 }
 function RemovePriceByID_DichVu($arrServices){
 	$query="";
-	$first = 1;
+	$first = true;
+	echo "<script>console.log('" . json_encode($arrServices) . "');</script>";
 	foreach ($arrServices as $id_services) {
 		$id_services = mysqli_real_escape_string($GLOBALS['link'], $id_services);
 		if($first){
+					//logErr("new");
 			$query = "DELETE FROM `BANGGIA` WHERE `BANGGIA`.`ID_DICHVU` = '$id_services'";
-			$first= -1;
+			$first= false;
 		}
 		else{
-			$query=$query." or `BANGGIA`.`ID_DICHVU` = '$id_services' ";
+			$query .=" or `BANGGIA`.`ID_DICHVU` = '$id_services' ";
+			//logErr($query);
 		}
 	}
 	$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
+	sleep(5);
 }
 function customError($errno, $errstr, $errfile, $errline) {
   echo "Error!";

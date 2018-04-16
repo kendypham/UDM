@@ -18,9 +18,8 @@ if(isset($row['ID'])){
 	//	 echo "<script>console.log( 'Debug Objects: " . $query . "' );</script>";
 		$results = mysqli_query($link, $query) or die(mysqli_error($link)."[".$query."]");
 		
-		while ($row = $results->fetch_assoc()){
+		$row = $results->fetch_assoc()
 			echo "<tr>\n<td>".findProvince($id_p)."</td>\n<td>".findService($id_s)."</td>\n<td>".$row['GIA']." VND</td>\n</tr>\n";
-		}
 	}
 }else
 	echo "Empty";
