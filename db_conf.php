@@ -19,23 +19,8 @@ if(!$db_selected) {
 //Khắc phục Lỗi font tiếng Việt
 mysqli_query($link, "SET NAMES 'utf8'");
 
-function FindIDProvince($province){
-
-$query = "SELECT ID FROM VUNG WHERE TENVUNG LIKE '$province'";
-$result_id_vung = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
-$row = $result_id_vung->fetch_assoc();
-return $row["ID"];
-}
-
-function FindIDService($service){
-
-$query = "SELECT ID FROM DICHVU WHERE TENDICHVU LIKE '$service'";
-$result_id_dichvu = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
-$row = $result_id_dichvu->fetch_assoc();
-return $row["ID"];
-}
-
 function findProvince($id_p){
+$id_p = mysqli_real_escape_string($GLOBALS['link'], $id_p);
 $query = "SELECT TENVUNG FROM VUNG WHERE ID = $id_p";
 $result_vung = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 $row = $result_vung->fetch_assoc();
@@ -43,6 +28,8 @@ return $row['TENVUNG'];
 }
 
 function findService($id_s){
+	$id_s = mysqli_real_escape_string($GLOBALS['link'], $id_s);
+
 $query = "SELECT TENDICHVU FROM DICHVU WHERE ID = $id_s";
 $result_dichvu = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 $row = $result_dichvu->fetch_assoc();
@@ -51,6 +38,9 @@ return $row["TENDICHVU"];
 
 //Thêm giá dịch vụ với tên vùng , dịch vụ, giá
 function InsertData($province, $service,$price){
+$province = mysqli_real_escape_string($GLOBALS['link'], $province);
+$service = mysqli_real_escape_string($GLOBALS['link'], $service);
+$price = mysqli_real_escape_string($GLOBALS['link'], $price);
 
 $query3= "ALTER TABLE BANGGIA AUTO_INCREMENT=1";
 $result3 = mysqli_query($GLOBALS['link'], $query3) or die(mysqli_error($GLOBALS['link'])."[".$query3."]");
@@ -59,7 +49,8 @@ $result3 = mysqli_query($GLOBALS['link'], $query3) or die(mysqli_error($GLOBALS[
 $id_province = FindIDProvince($province);
 $id_service = FindIDService($service);
 $query = "INSERT INTO `BANGGIA` (`ID`, `ID_DICHVU`, `ID_VUNG`, `GIA`)  VALUES (NULL,'$id_service', '$id_province','$price')";
-logErr($query);
+logErr($service."\n". $query);
+
 $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 }
 

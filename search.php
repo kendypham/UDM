@@ -67,6 +67,7 @@ include 'db_conf.php';
 					</select>	
 				</div>
 				<button class="btn text-info bg-white position-relative" id="sm" style="border: 1px solid; top: 5px;">Tính giá</button>
+				<button class="btn text-info bg-white position-relative" id="update" style="border: 1px solid; top: 5px;">Cập nhật</button>
 				<div class="position-relative" id="results" style="top: 15px;">
 				</div>
 			</div>
@@ -96,6 +97,9 @@ include 'db_conf.php';
 
 					else $("#results").html("<p>Not Sent!</p>\n");
 				});
+			});
+			$("#update").click(function(){
+				window.location.href = "login.php";
 			});
 		})
 </script>

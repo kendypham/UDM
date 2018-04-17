@@ -10,20 +10,6 @@ if (!isset($_SESSION['username'])){
 	echo ("<script>location.href='login.php'</script>");
 	return;
  }
-#region
-// RemoveAllPrice();
-// Insert_Rao_Vat_Dat_Ban($provinces);
-// Insert_Rao_Vat_Nha_Ban($provinces);
-// Insert_Rao_Vat_Dien_Thoai_May_Tinh($provinces);
-// Insert_Rao_Vat_May_Quay_Phim($provinces);
-// Insert_Rao_Vat_Ban_O_To_Cu($provinces);
-// Insert_Rao_Vat_Ban_Xe_May_Cu($provinces);
-// Insert_Rao_Vat_Cay_Canh() ;
-// Insert_Rao_Vat_Cay_Giong();
-// // Hàm lấy dữ liệu 5 dịch vụ liên quan khách sạn
-// Delete_Khach_San();
-// Insert_Khach_San($provinces);
-#endregion
 
 //Các hàm hỗ trợ
 //--------------------------------------------------
@@ -89,7 +75,6 @@ if($tmp!=0)
 	//sleep(1);
 		unset($html);
 	}
-	logErr("---------------Updated: \"Rao vặt: Đất bán\"------------------ ");
 }
 //INFO: Rao vặt: Điện thoại/Máy tính/Laptop
 //key : name unsign, value :province name
@@ -171,7 +156,6 @@ if($result!=0)
 		unset($html);
 		unset($html1);
 	}
-	logErr("----------------Updated: \"Rao vặt: Điện thoại/Máy tính/Laptop\"------------------ ");
 }
 
 
@@ -212,7 +196,6 @@ function Insert_Rao_Vat_May_Quay_Phim($provinces) {
 	//sleep(1);
 		unset($html);
 	}
-		logErr("--------------Updated: \"Rao vặt: máy quay phim, chụp hình\"------------------ ");
 }
 
 //INFO: Rao vặt: Nhà bán
@@ -252,7 +235,6 @@ function Insert_Rao_Vat_Nha_Ban($provinces) {
 	//sleep(1);
 		unset($html);
 	}
-	logErr("-------------Updated: \"Rao vặt: Nhà bán\"------------------ ");
 }
 
 //INFO: Rao vặt: xe hơi cũ
@@ -292,7 +274,6 @@ function Insert_Rao_Vat_Ban_O_To_Cu($provinces) {
 	//sleep(1);
 		unset($html);
 	}
-	logErr("-----------------Updated: \"Rao vặt: xe hơi cũ\"------------------ ");
 }
 
 //INFO: Rao vặt: xe máy cũ
@@ -333,7 +314,6 @@ function Insert_Rao_Vat_Ban_Xe_May_Cu($provinces) {
 		unset($html);
 	
 	}
-		logErr("----------------Updated: \"Rao vặt: xe máy cũ\"------------------ ");
 }
 //INFO: Cây cảnh
 //key : name unsign, value :province name
@@ -382,7 +362,6 @@ function Insert_Cay_Canh() {
 	//sleep(1);
 		unset($html);
 	
-	logErr("----------------Updated: \"Cây cảnh\"------------------ ");
 }
 
 //INFO: Cây giống
@@ -432,7 +411,6 @@ function Insert_Cay_Giong() {
 		InsertData($value,"Cây giống",$tmp) ;
 	//sleep(1);
 		unset($html);
-		logErr("----------------Updated: \"Cây giống\"------------------ ");
 }
 
 //INFO: Khách sạn chung
@@ -557,7 +535,6 @@ function Insert_Khach_San_Khong_Danh_Sao($currentProvince,$currentPath){
 	//sleep(1);
 		unset($html);
 
-	logErr("----------------Updated: \"Khách sạn không đánh sao\"------------------ ");
 }
 
 //INFO: Khách sạn 01 sao
@@ -605,7 +582,6 @@ function Insert_Khach_San_01_Sao($currentProvince,$currentPath){
 		//echo '<br> Khách sạn 01 sao'.$currentProvince .": ". $tmp ;
 	//sleep(1);
 		unset($html);
-	logErr("----------------Updated: \"Khách sạn 01 sao\"------------------ ");
 }
 
 //INFO: Khách sạn 02 sao
@@ -652,7 +628,6 @@ function Insert_Khach_San_02_Sao($currentProvince,$currentPath){
 		InsertData($currentProvince,"Khách sạn 02 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
-	logErr("----------------Updated: \"Khách sạn 02 sao\"------------------ ");
 }
 //INFO: Khách sạn 03 sao
 //provinces :province name
@@ -698,7 +673,6 @@ function Insert_Khach_San_03_Sao($currentProvince,$currentPath){
 		InsertData($currentProvince,"Khách sạn 03 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
-	logErr("-----------------Updated: \"Khách sạn 03 sao\"------------------ ");
 }
 //INFO: Khách sạn 04 sao
 //provinces :province name
@@ -744,7 +718,6 @@ function Insert_Khach_San_04_Sao($currentProvince,$currentPath){
 			InsertData($currentProvince,"Khách sạn 04 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
-	logErr("----------------Updated: \"Khách sạn 04 sao\"------------------ ");
 }
 //INFO: Khách sạn 05 sao
 //provinces :province name
@@ -790,7 +763,475 @@ function Insert_Khach_San_05_Sao($currentProvince,$currentPath){
 		InsertData($currentProvince,"Khách sạn 05 sao",$tmp) ;
 	//sleep(1);
 		unset($html);
-	logErr("------------------Updated: \"Khách sạn 05 sao\"------------------ ");
 }
 
+function Insert_Thue_Xe_May($provinces) {
+foreach ( $provinces as $key => $value ) {
+	$html = file_get_html('https://muaban.net/cho-thue-xe-may-'.$key.'-c53');
+	$tmp= 0.0;
+	$i=0;
+	//echo ('https://muaban.net/cho-thue-xe-may-'.$key.'-c53');
+	foreach($html->find('span.mbn-price') as $element) {
+		$text = $element->innertext;
+// 	//DEBUG: 
+// echo '<br> '.$value .": ". $tmp ;
+		if ((strpos($text, 'tỷ')) && !(strpos($text, 'triệu')) ) {
+			$text = preg_replace("/ tỷ /", '000000000', $text);
+		}
+		else{
+			$text = preg_replace("/ tỷ /", '', $text);
+			$text = preg_replace("/ triệu/", '000000', $text);
+			$text = str_replace(".", "", $text);
+		}
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+			echo "ssss".(int) $text;
+		}
+
+		if( $i>9 )
+			break;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ."kdem: ".$i;
+	if($tmp!=0)
+	InsertData($value,"Xe máy",$tmp) ;
+//sleep(1);
+	unset($html);
+}
+}
+
+//INFO: Cửa hàng Điện tử văn phòng
+//key : name unsign, value :province name
+function Insert_Cua_Hang_Dien_Tu_Van_Phong($provinces) {
+foreach ( $provinces as $key => $value ) {
+	$html = file_get_html('https://muaban.net/ban-do-dung-van-phong-'.$key.'-c75');
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('span.mbn-price') as $element) {
+		$text = $element->innertext;
+// 	//DEBUG: 
+// echo '<br> '.$value .": ". $tmp ;
+		if ((strpos($text, 'tỷ')) && !(strpos($text, 'triệu')) ) {
+			$text = preg_replace("/ tỷ /", '000000000', $text);
+		}
+		else{
+			$text = preg_replace("/ tỷ /", '', $text);
+			$text = preg_replace("/ triệu/", '000000', $text);
+			$text = str_replace(".", "", $text);
+		}
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+
+	InsertData($value,"Cửa hàng Điện tử văn phòng",$tmp) ;
+//sleep(1);
+	unset($html);
+}
+}
+//INFO: Cửa hàng quần áo
+//key : name unsign, value :province name
+function Insert_Cua_Hang_Quan_Ao($provinces) {
+foreach ( $provinces as $key => $value ) {
+	$html = file_get_html('https://muaban.net/quan-ao-trang-phuc-'.$key.'-c21');
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('span.mbn-price') as $element) {
+		$text = $element->innertext;
+// 	//DEBUG: 
+// echo '<br> '.$value .": ". $tmp ;
+		if ((strpos($text, 'tỷ')) && !(strpos($text, 'triệu')) ) {
+			$text = preg_replace("/ tỷ /", '000000000', $text);
+		}
+		else{
+			$text = preg_replace("/ tỷ /", '', $text);
+			$text = preg_replace("/ triệu/", '000000', $text);
+			$text = str_replace(".", "", $text);
+		}
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+
+	InsertData($value,"Cửa hàng quần áo",$tmp) ;
+//sleep(1);
+	unset($html);
+}
+}
+//INFO: Cửa hàng giày dép
+//key : name unsign, value :province name
+function Insert_Cua_Hang_Giay_Dep($provinces) {
+foreach ( $provinces as $key => $value ) {
+	$html = file_get_html('https://muaban.net/giay-dep-tui-xach-'.$key.'-c22');
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('span.mbn-price') as $element) {
+		$text = $element->innertext;
+// 	//DEBUG: 
+// echo '<br> '.$value .": ". $tmp ;
+		if ((strpos($text, 'tỷ')) && !(strpos($text, 'triệu')) ) {
+			$text = preg_replace("/ tỷ /", '000000000', $text);
+		}
+		else{
+			$text = preg_replace("/ tỷ /", '', $text);
+			$text = preg_replace("/ triệu/", '000000', $text);
+			$text = str_replace(".", "", $text);
+		}
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+
+	InsertData($value,"Cửa hàng giày dép",$tmp) ;
+//sleep(1);
+	unset($html);
+}
+}
+//INFO: Phụ Kiện Thời Trang
+//key : name unsign, value :province name
+function Insert_Phu_Kien_Thoi_Trang($provinces) {
+foreach ( $provinces as $key => $value ) {
+	$html = file_get_html('https://muaban.net/trang-suc-phu-kien-'.$key.'-c24');
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('span.mbn-price') as $element) {
+		$text = $element->innertext;
+// 	//DEBUG: 
+// echo '<br> '.$value .": ". $tmp ;
+		if ((strpos($text, 'tỷ')) && !(strpos($text, 'triệu')) ) {
+			$text = preg_replace("/ tỷ /", '000000000', $text);
+		}
+		else{
+			$text = preg_replace("/ tỷ /", '', $text);
+			$text = preg_replace("/ triệu/", '000000', $text);
+			$text = str_replace(".", "", $text);
+		}
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+
+	InsertData($value,"Phụ Kiện Thời Trang",$tmp) ;
+//sleep(1);
+	unset($html);
+}
+}
+
+//INFO: Xẻ tải
+//provinces :province name
+function Insert_Xe_Tai() {
+	$value ="Toàn Quốc";
+	$url="http://xetaitoancau.net/san-pham/xe-tai-14542";
+
+	$curl=curl_init();
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+	curl_setopt($curl, CURLOPT_HEADER, false);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($curl, CURLOPT_URL, $url);
+	curl_setopt($curl, CURLOPT_REFERER, $url);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+	$str=curl_exec($curl);
+	curl_close($curl);
+
+	$html = new simple_html_dom();
+	$html->load($str);
+	//echo $html->innertext;	
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('span.price-new') as $element) {
+		$text = $element->innertext;
+
+		$text = str_replace(",", "", $text);
+		$text = preg_replace('/[^0-9]/', '',$text);
+
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+		//DEBUG:
+		 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+	InsertData($value,"Xe tải",$tmp) ;
+//sleep(1);
+	unset($html);
+
+}
+
+//INFO: Xe ba bánh
+//provinces :provinces name
+function Insert_Xe_Ba_Banh() {
+	$value ="Toàn Quốc";
+	$url="http://xebabanhchohang.vn/";
+
+	$curl=curl_init();
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+	curl_setopt($curl, CURLOPT_HEADER, false);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($curl, CURLOPT_URL, $url);
+	curl_setopt($curl, CURLOPT_REFERER, $url);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+	$str=curl_exec($curl);
+	curl_close($curl);
+
+	$html = new simple_html_dom();
+	$html->load($str);
+	//echo $html->innertext;	
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('.price') as $element) {
+		$text = $element->innertext;
+
+		$text = str_replace(",", "", $text);
+		$text = preg_replace('/[^0-9]/', '',$text);
+
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+		//DEBUG:
+		 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+	InsertData($value,"Xe ba bánh",$tmp) ;
+//sleep(1);
+	unset($html);
+}
+
+//INFO: Chăm sóc sức khỏe tại nhà
+//provinces: province name
+function Insert_Cham_Soc_Suc_Khoe_Tai_Nha() {
+	$value ="Toàn Quốc";
+	$url="https://ytetainhasaigon.com/services-2//";
+
+	$curl=curl_init();
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+	curl_setopt($curl, CURLOPT_HEADER, false);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($curl, CURLOPT_URL, $url);
+	curl_setopt($curl, CURLOPT_REFERER, $url);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+	$str=curl_exec($curl);
+	curl_close($curl);
+
+	$html = new simple_html_dom();
+	$html->load($str);
+	//echo $html->innertext;	
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('.av-catalogue-price') as $element) {
+		$text = $element->innertext;
+
+		$text = str_replace(",", "", $text);
+		$text = preg_replace('/[^0-9]/', '',$text);
+
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+		//DEBUG:
+		 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+	InsertData($value,"Chăm sóc sức khỏe tại nhà",$tmp) ;
+//sleep(1);
+	unset($html);
+}
+
+//INFO: Khu giải trí cho trẻ em
+//provinces :provinces name
+function Insert_Khu_Giai_Tri_Tre_Em() {
+	$value ="Toàn Quốc";
+	$url="http://vforum.vn/diendan/showthread.php?91206-Gia-ve-vao-cong-Dam-Sen-nuoc-va-Dam-Sen-kho-tron-goi-moi-nhat-2017";
+
+	$curl=curl_init();
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+	curl_setopt($curl, CURLOPT_HEADER, false);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($curl, CURLOPT_URL, $url);
+	curl_setopt($curl, CURLOPT_REFERER, $url);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+	$str=curl_exec($curl);
+	curl_close($curl);
+
+	$html = new simple_html_dom();
+	$html->load($str);
+	//echo $html->innertext;	
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('.cms_table_td') as $element) {
+		$text = $element->innertext;
+
+		$text = str_replace(",", "", $text);
+		$text = preg_replace('/[^0-9]/', '',$text);
+
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+		//DEBUG:
+		 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+	InsertData($value,"Khu giải trí cho trẻ em",$tmp) ;
+//sleep(1);
+	unset($html);
+}
+
+//INFO: Mẹ và bé
+//provinces :provinces name
+function Insert_Me_Va_Be() {
+	$value ="Toàn Quốc";
+	$url="https://concung.com/";
+
+	$curl=curl_init();
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+	curl_setopt($curl, CURLOPT_HEADER, false);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($curl, CURLOPT_URL, $url);
+	curl_setopt($curl, CURLOPT_REFERER, $url);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+	$str=curl_exec($curl);
+	curl_close($curl);
+
+	$html = new simple_html_dom();
+	$html->load($str);
+	//echo $html->innertext;	
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('.span-item-price') as $element) {
+		$text = $element->innertext;
+
+		$text = str_replace(",", "", $text);
+		$text = preg_replace('/[^0-9]/', '',$text);
+
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+		//DEBUG:
+		 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+	InsertData($value,"Mẹ và bé",$tmp);
+//sleep(1);
+	unset($html);
+
+}
+
+//INFO: Bảng điện tử led
+//provinces: province name
+function Insert_Bang_Dien_Tu_Led() {
+	$value ="Toàn Quốc";
+	$url="http://manhinhledquangcao.vn/san-pham/79-bang-dien-tu-led.html";
+
+	$curl=curl_init();
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+	curl_setopt($curl, CURLOPT_HEADER, false);
+	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($curl, CURLOPT_URL, $url);
+	curl_setopt($curl, CURLOPT_REFERER, $url);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+	$str=curl_exec($curl);
+	curl_close($curl);
+
+	$html = new simple_html_dom();
+	$html->load($str);
+	//echo $html->innertext;	
+	$tmp= 0.0;
+	$i=0;
+
+	foreach($html->find('.price-old') as $element) {
+		$text = $element->innertext;
+
+		$text = str_replace(",", "", $text);
+		$text = preg_replace('/[^0-9]/', '',$text);
+
+		if(((int) $text) > 0 ){
+			$tmp += (int) $text;
+			$i= $i+1 ;
+		}
+
+		if( $i>9 )
+			break;
+		//DEBUG:
+		 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+	}
+	if($i)
+		$tmp=$tmp/$i;
+	//echo '<br> '.$value .": ". $tmp ;
+	InsertData($value,"Bảng điện tử led",$tmp) ;
+//sleep(1);
+	unset($html);
+}
 ?>

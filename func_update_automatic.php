@@ -31,6 +31,19 @@ Insert_Cay_Giong();
 Echo '>>>>>>>>>>>>>>>>>>>>>>>Insert_Cay_Giong>>>>>>>>>>>>>>>>>>>>>>>>>>>>';
 Insert_Khach_San($provinces);
 Echo '>>>>>>>>>>>>>>>>>>>>>>>Insert_Khach_San>>>>>>>>>>>>>>>>>>>>>>>>>>>>';
+InsertData($value,"Bãi đỗ xe hơi","1200000");
+
+Insert_Bang_Dien_Tu_Led();
+Insert_Cua_Hang_Dien_Tu_Van_Phong($provinces);
+Insert_Cua_Hang_Giay_Dep($provinces);
+Insert_Cua_Hang_Quan_Ao($provinces);
+Insert_Khu_Giai_Tri_Tre_Em();
+Insert_Me_Va_Be();
+Insert_Phu_Kien_Thoi_Trang($provinces);
+Insert_Xe_Ba_Banh();
+InsertData($value,"Xe Đạp","30000") ;
+Insert_Thue_Xe_May($provinces);
+Insert_Xe_Tai();
 #endregion
 Echo '>>>>>>>>>>>>>>>>>>>>>>>Finished>>>>>>>>>>>>>>>>>>>>>>>>>>>>';
 }
