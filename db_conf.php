@@ -3,7 +3,7 @@ session_start();
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'UDM');
 define('DB_USER', 'root');
-define('DB_PASSWORD', 'Tien445566');
+define('DB_PASSWORD', '');
 // Hide error ^^
 //set_error_handler("customError");
 // swiTmmiizcXJ

@@ -833,7 +833,7 @@ foreach ( $provinces as $key => $value ) {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
-
+if($tmp!=0)
 	InsertData($value,"Cửa hàng Điện tử văn phòng",$tmp) ;
 //sleep(1);
 	unset($html);
@@ -870,7 +870,7 @@ foreach ( $provinces as $key => $value ) {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
-
+if($tmp!=0)
 	InsertData($value,"Cửa hàng quần áo",$tmp) ;
 //sleep(1);
 	unset($html);
@@ -907,7 +907,7 @@ foreach ( $provinces as $key => $value ) {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
-
+if($tmp!=0)
 	InsertData($value,"Cửa hàng giày dép",$tmp) ;
 //sleep(1);
 	unset($html);
@@ -944,7 +944,7 @@ foreach ( $provinces as $key => $value ) {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
-
+if($tmp!=0)
 	InsertData($value,"Phụ Kiện Thời Trang",$tmp) ;
 //sleep(1);
 	unset($html);
@@ -993,6 +993,7 @@ function Insert_Xe_Tai() {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
+	if($tmp!=0)
 	InsertData($value,"Xe tải",$tmp) ;
 //sleep(1);
 	unset($html);
@@ -1041,6 +1042,7 @@ function Insert_Xe_Ba_Banh() {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
+	if($tmp!=0)
 	InsertData($value,"Xe ba bánh",$tmp) ;
 //sleep(1);
 	unset($html);
@@ -1088,6 +1090,7 @@ function Insert_Cham_Soc_Suc_Khoe_Tai_Nha() {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
+	if($tmp!=0)
 	InsertData($value,"Chăm sóc sức khỏe tại nhà",$tmp) ;
 //sleep(1);
 	unset($html);
@@ -1135,6 +1138,7 @@ function Insert_Khu_Giai_Tri_Tre_Em() {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
+	if($tmp!=0)
 	InsertData($value,"Khu giải trí cho trẻ em",$tmp) ;
 //sleep(1);
 	unset($html);
@@ -1182,6 +1186,7 @@ function Insert_Me_Va_Be() {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
+	if($tmp!=0)
 	InsertData($value,"Mẹ và bé",$tmp);
 //sleep(1);
 	unset($html);
@@ -1230,6 +1235,7 @@ function Insert_Bang_Dien_Tu_Led() {
 	if($i)
 		$tmp=$tmp/$i;
 	//echo '<br> '.$value .": ". $tmp ;
+	if($tmp!=0)
 	InsertData($value,"Bảng điện tử led",$tmp) ;
 //sleep(1);
 	unset($html);

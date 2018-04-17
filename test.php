@@ -4,7 +4,7 @@ include('assets/libs/simple_html_dom.php');
 include('db_conf.php');
 include('common.php');
 set_time_limit(0);
-
+$provinces= GetAllprovince(); 
 // if (!isset($_SESSION['username'])){
 // 	echo "<script type='text/javascript'>alert('Login failed');</script>";
 // 	echo ("<script>location.href='login.php'</script>");
@@ -24,9 +24,10 @@ set_time_limit(0);
 // Delete_Khach_San();
 // Insert_Khach_San($provinces);
 #endregion
-
+// Insert_Rao_Vat_Dat_Ban($provinces);
 //Các hàm hỗ trợ
 //--------------------------------------------------
+Insert_Cho_O() ;
 
 function GetAllProvince() {
 	$a = array();
@@ -52,32 +53,19 @@ function GetAllProvince() {
 	return $a;
 }
 
-function RemovePriceByID_DichVu($arrServices){
-	$query="";
-	$first = 1;
-	foreach ($arrServices as $id_services) {
-		if($first){
-			$query = "DELETE FROM `BANGGIA` WHERE `BANGGIA`.`ID_DICHVU` = '$id_services'";
-			$first= -1;
-		}
-		else{
-			$query=$query." or `BANGGIA`.`ID_DICHVU` = '$id_services' ";
-		}
-	}
-	$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
-}
 //INFO: Rao vặt: Đất bán
 //key : name unsign, value :province name
 function Insert_Rao_Vat_Dat_Ban($provinces) {
-	foreach ( $provinces as $key => $value ) {
-		$html = file_get_html('https://muaban.net/ban-dat-'.$key.'-c31');
+	
+		//$html = file_get_html('https://muaban.net/ban-dat-'.$key.'-c31');
+		$html = file_get_html('https://muaban.net/phu-tung-o-to-toan-quoc-l0-c45');
 		$tmp= 0.0;
 		$i=0;
 
 		foreach($html->find('span.mbn-price') as $element) {
 			$text = $element->innertext;
 	// 	//DEBUG: 
-	// echo '<br> '.$value .": ". $tmp ;
+	 		
 			if ((strpos($text, 'tỷ')) && !(strpos($text, 'triệu')) ) {
 				$text = preg_replace("/ tỷ /", '000000000', $text);
 			}
@@ -87,6 +75,7 @@ function Insert_Rao_Vat_Dat_Ban($provinces) {
 				$text = str_replace(".", "", $text);
 			}
 			if(((int) $text) > 0 ){
+				echo '<br> >>>>>>'. (int) $text;
 				$tmp += (int) $text;
 				$i= $i+1 ;
 			}
@@ -94,15 +83,64 @@ function Insert_Rao_Vat_Dat_Ban($provinces) {
 			if( $i>9 )
 				break;
 		}
+
 		if($i)
 			$tmp=$tmp/$i;
 		//echo '<br> '.$value .": ". $tmp ;
 
-		InsertData($value,"Rao vặt: Đất bán",$tmp) ;
+		//InsertData($value,"Rao vặt: Đất bán",$tmp) ;
 	//sleep(1);
 		unset($html);
-	}
 	logErr("---------------Updated: \"Rao vặt: Đất bán\"------------------ ");
+}
+function Insert_Cho_O() {
+		$value ="Toàn Quốc";
+		$url="http://xome.vn/tim-kiem";
+
+		$curl=curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_REFERER, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+		$str=curl_exec($curl);
+		curl_close($curl);
+
+		$html = new simple_html_dom();
+		$html->load($str);
+		//echo $html->innertext;	
+		$tmp= 0.0;
+		$i=0;
+
+		foreach($html->find(".product-price") as $element) {
+			$text = $element->innertext;
+			echo '<br> raw'. $text ;
+			$text = str_replace(",", "", $text);
+			$text = preg_replace('/[^0-9]/', '',$text);
+
+			if(((int) $text) > 0 ){
+				echo '<br> >>>>>>'. (int) $text;
+				$tmp += (int) $text;
+				$i= $i+1 ;
+			}
+
+			if( $i>9 )
+				break;
+			//DEBUG:
+			 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+		}
+		echo "chia  ".$tmp ."cho" . $i;
+		if($i)
+			$tmp=$tmp/$i;
+		echo "tong ket: ".$tmp;
+		//echo '<br> '.$value .": ". $tmp ;
+		//InsertData($value,"Chỗ ở",$tmp) ;
+	//sleep(1);
+		unset($html);
+	
+	echo "<br> ----------------Updated: \" Chỗ ở\"------------------ ";
 }
 
 ?>
