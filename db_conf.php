@@ -18,6 +18,8 @@ if(!$db_selected) {
 }  
 //Khắc phục Lỗi font tiếng Việt
 mysqli_query($link, "SET NAMES 'utf8'");
+date_default_timezone_set("Asia/Bangkok");
+
 function FindIDProvince($province){
  
  $query = "SELECT ID FROM VUNG WHERE TENVUNG LIKE '$province'";
@@ -108,6 +110,7 @@ function LoginAdministactor($username,$password){
 	return "success";
 }
 function RemoveAllData(){
+	LogHistory("Delete All ");
 	//RemoveAllPrice();
 	RemoveAllProvince();
 	RemoveAllService();
@@ -119,6 +122,15 @@ $todate= date('d-m-Y');
   $mode = (!file_exists($logPath)) ? 'w':'a';
   $logfile = fopen($logPath, $mode);
   fwrite($logfile, "\r\n". $data);
+  fclose($logfile);
+}
+function LogHistory($data){
+  $todate= date('d-m-Y'); 
+  $logPath ="logs/".$todate."_history.txt";
+  $mode = (!file_exists($logPath)) ? 'w':'a';
+  $logfile = fopen($logPath, $mode);
+  $time  = date("H:i:s");
+  fwrite($logfile, "\r\n ".$time .":". $data);
   fclose($logfile);
 }
 function RemovePriceByID_DichVu($arrServices){
@@ -136,9 +148,12 @@ function RemovePriceByID_DichVu($arrServices){
 			$query .=" or `BANGGIA`.`ID_DICHVU` = '$id_services' ";
 			//logErr($query);
 		}
+		$sv=findService($id_services);
+		LogHistory("Delete : ".sv);
 	}
 	$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
-	sleep(5);
+
+
 }
 function customError($errno, $errstr, $errfile, $errline) {
   echo "Error!";

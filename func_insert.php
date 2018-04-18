@@ -75,6 +75,7 @@ if($tmp!=0)
 	//sleep(1);
 		unset($html);
 	}
+	LogHistory("Update ->Rao vặt: Đất bán") ;
 }
 //INFO: Rao vặt: Điện thoại/Máy tính/Laptop
 //key : name unsign, value :province name
@@ -156,6 +157,7 @@ if($result!=0)
 		unset($html);
 		unset($html1);
 	}
+		LogHistory("Update ->Rao vặt: Điện thoại/Máy tính/Laptop") ;
 }
 
 
@@ -196,6 +198,7 @@ function Insert_Rao_Vat_May_Quay_Phim($provinces) {
 	//sleep(1);
 		unset($html);
 	}
+		LogHistory("Update ->Rao vặt: máy quay phim, chụp hình") ;
 }
 
 //INFO: Rao vặt: Nhà bán
@@ -235,6 +238,7 @@ function Insert_Rao_Vat_Nha_Ban($provinces) {
 	//sleep(1);
 		unset($html);
 	}
+	LogHistory("Update ->Rao vặt: Nhà bán") ;
 }
 
 //INFO: Rao vặt: xe hơi cũ
@@ -274,6 +278,7 @@ function Insert_Rao_Vat_Ban_O_To_Cu($provinces) {
 	//sleep(1);
 		unset($html);
 	}
+		LogHistory("Update ->Rao vặt: xe hơi cũ") ;
 }
 
 //INFO: Rao vặt: xe máy cũ
@@ -314,6 +319,7 @@ function Insert_Rao_Vat_Ban_Xe_May_Cu($provinces) {
 		unset($html);
 	
 	}
+	LogHistory("Update ->Rao vặt: xe máy cũ") ;
 }
 //INFO: Cây cảnh
 //key : name unsign, value :province name
@@ -411,6 +417,7 @@ function Insert_Cay_Giong() {
 		InsertData($value,"Cây giống",$tmp) ;
 	//sleep(1);
 		unset($html);
+		LogHistory("Update ->Cây giống") ;
 }
 
 //INFO: Khách sạn chung
@@ -486,7 +493,7 @@ function Insert_Khach_San($provinces) {
 			}
 			sleep(1);
 		}
-	
+		LogHistory("Update ->Khách Sạn") ;
 	}
 
 //INFO: Khách sạn không đánh sao
@@ -800,6 +807,7 @@ foreach ( $provinces as $key => $value ) {
 //sleep(1);
 	unset($html);
 }
+LogHistory("Update ->Xe máy") ;
 }
 
 //INFO: Cửa hàng Điện tử văn phòng
@@ -838,6 +846,7 @@ if($tmp!=0)
 //sleep(1);
 	unset($html);
 }
+LogHistory("Update ->Cửa hàng Điện tử văn phòng") ;
 }
 //INFO: Cửa hàng quần áo
 //key : name unsign, value :province name
@@ -875,6 +884,7 @@ if($tmp!=0)
 //sleep(1);
 	unset($html);
 }
+LogHistory("Update ->Cửa hàng quần áo") ;
 }
 //INFO: Cửa hàng giày dép
 //key : name unsign, value :province name
@@ -912,6 +922,7 @@ if($tmp!=0)
 //sleep(1);
 	unset($html);
 }
+LogHistory("Update ->Cửa hàng giày dép") ;
 }
 //INFO: Phụ Kiện Thời Trang
 //key : name unsign, value :province name
@@ -949,6 +960,8 @@ if($tmp!=0)
 //sleep(1);
 	unset($html);
 }
+LogHistory("Update ->Phụ Kiện Thời Trang") ;
+
 }
 
 //INFO: Xẻ tải
@@ -997,6 +1010,7 @@ function Insert_Xe_Tai() {
 	InsertData($value,"Xe tải",$tmp) ;
 //sleep(1);
 	unset($html);
+LogHistory("Update ->Xe tải") ;
 
 }
 
@@ -1046,6 +1060,7 @@ function Insert_Xe_Ba_Banh() {
 	InsertData($value,"Xe ba bánh",$tmp) ;
 //sleep(1);
 	unset($html);
+	LogHistory("Update ->Xe ba bánh") ;
 }
 
 //INFO: Chăm sóc sức khỏe tại nhà
@@ -1094,6 +1109,7 @@ function Insert_Cham_Soc_Suc_Khoe_Tai_Nha() {
 	InsertData($value,"Chăm sóc sức khỏe tại nhà",$tmp) ;
 //sleep(1);
 	unset($html);
+		LogHistory("Update ->Chăm sóc sức khỏe tại nhà") ;
 }
 
 //INFO: Khu giải trí cho trẻ em
@@ -1142,6 +1158,8 @@ function Insert_Khu_Giai_Tri_Tre_Em() {
 	InsertData($value,"Khu giải trí cho trẻ em",$tmp) ;
 //sleep(1);
 	unset($html);
+	LogHistory("Update ->Khu giải trí cho trẻ em") ;
+
 }
 
 //INFO: Mẹ và bé
@@ -1190,6 +1208,7 @@ function Insert_Me_Va_Be() {
 	InsertData($value,"Mẹ và bé",$tmp);
 //sleep(1);
 	unset($html);
+	LogHistory("Update ->Mẹ và bé") ;
 
 }
 
@@ -1239,5 +1258,7 @@ function Insert_Bang_Dien_Tu_Led() {
 	InsertData($value,"Bảng điện tử led",$tmp) ;
 //sleep(1);
 	unset($html);
+	LogHistory("Update ->Bảng điện tử led") ;
+
 }
 ?>

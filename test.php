@@ -4,7 +4,9 @@ include('assets/libs/simple_html_dom.php');
 include('db_conf.php');
 include('common.php');
 set_time_limit(0);
-$provinces= GetAllprovince(); 
+date_default_timezone_set("Asia/Bangkok");
+echo date("'d-m-Y H:i:s'");
+//$provinces= GetAllprovince(); 
 // if (!isset($_SESSION['username'])){
 // 	echo "<script type='text/javascript'>alert('Login failed');</script>";
 // 	echo ("<script>location.href='login.php'</script>");
@@ -27,7 +29,7 @@ $provinces= GetAllprovince();
 // Insert_Rao_Vat_Dat_Ban($provinces);
 //Các hàm hỗ trợ
 //--------------------------------------------------
-Insert_Cho_O() ;
+//Insert_Cho_O() ;
 
 function GetAllProvince() {
 	$a = array();
