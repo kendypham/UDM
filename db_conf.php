@@ -78,6 +78,7 @@ $result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['l
 $query2= "ALTER TABLE BANGGIA AUTO_INCREMENT=1";
 
 $result2 = mysqli_query($GLOBALS['link'], $query2) or die(mysqli_error($GLOBALS['link'])."[".$query2."]");
+LogHistory("Delete All ");
 }
 
 function RemoveAllProvince(){
@@ -110,7 +111,7 @@ function LoginAdministactor($username,$password){
 	return "success";
 }
 function RemoveAllData(){
-	LogHistory("Delete All ");
+	LogHistory("Clean DB");
 	//RemoveAllPrice();
 	RemoveAllProvince();
 	RemoveAllService();
@@ -149,7 +150,7 @@ function RemovePriceByID_DichVu($arrServices){
 			//logErr($query);
 		}
 		$sv=findService($id_services);
-		LogHistory("Delete : ".sv);
+		LogHistory("Delete : ".$sv);
 	}
 	$result = mysqli_query($GLOBALS['link'], $query) or die(mysqli_error($GLOBALS['link'])."[".$query."]");
 

@@ -31,6 +31,7 @@ Insert_Cay_Giong();
 Echo '>>>>>>>>>>>>>>>>>>>>>>>Insert_Cay_Giong>>>>>>>>>>>>>>>>>>>>>>>>>>>>';
 Insert_Khach_San($provinces);
 Echo '>>>>>>>>>>>>>>>>>>>>>>>Insert_Khach_San>>>>>>>>>>>>>>>>>>>>>>>>>>>>';
+$value = "Toàn Quốc";
 InsertData($value,"Bãi đỗ xe hơi","1200000");
 InsertData($value,"Xe Đạp","30000") ;
 Insert_Bang_Dien_Tu_Led();
