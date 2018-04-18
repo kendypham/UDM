@@ -7,7 +7,7 @@ $a = $_REQUEST['service'];
 
 // echo "<script>console.log('" . json_encode($a) . "');</script>";
 if(!isset($a)) return;
-
+$value= "Toàn Quốc";
 $provinces= GetAllprovince(); 
 RemovePriceByID_DichVu($a);
 $ks="";
