@@ -1259,6 +1259,229 @@ function Insert_Bang_Dien_Tu_Led() {
 //sleep(1);
 	unset($html);
 	LogHistory("Update ->Bảng điện tử led") ;
-
 }
+
+function Insert_Cua_Hang_Dong_Ho() {
+		$value ="Toàn Quốc";
+		$url="http://www.dangquangwatch.vn/sp/t-1/Dong-ho-nam.html";
+
+		$curl=curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_REFERER, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+		$str=curl_exec($curl);
+		curl_close($curl);
+
+		$html = new simple_html_dom();
+		$html->load($str);
+		//echo $html->innertext;	
+		$tmp= 0.0;
+		$i=0;
+
+		foreach($html->find('span.new') as $element) {
+			$text = $element->innertext;
+
+			$text = str_replace(",", "", $text);
+			$text = preg_replace('/[^0-9]/', '',$text);
+
+			if(((int) $text) > 0 ){
+				$tmp += (int) $text;
+				$i= $i+1 ;
+			}
+
+			if( $i>9 )
+				break;
+			//DEBUG:
+			 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+		}
+		if($i)
+			$tmp=$tmp/$i;
+		//echo '<br> '.$value .": ". $tmp ;
+		if($tmp!=0)
+			InsertData($value,"Cửa hàng đồng hồ",$tmp) ;
+	//sleep(1);
+		unset($html);
+	
+	LogHistory("Update ->Cửa hàng đồng hồ") ;
+}
+// INFO : cửa hàng phụ tùng xe máy
+// provinces: province name
+
+function Insert_Cua_Hang_Phu_Tung_Xe_May($provinces) {
+	foreach ( $provinces as $key => $value ) {
+		$html = file_get_html('https://muaban.net/phu-tung-xe-may-'.$key.'-c55');
+		$tmp= 0.0;
+		$i=0;
+
+		foreach($html->find('span.mbn-price') as $element) {
+			$text = $element->innertext;
+	// 	//DEBUG: 
+	// echo '<br> '.$value .": ". $tmp ;
+			if ((strpos($text, 'tỷ')) && !(strpos($text, 'triệu')) ) {
+				$text = preg_replace("/ tỷ /", '000000000', $text);
+			}
+			else{
+				$text = preg_replace("/ tỷ /", '', $text);
+				$text = preg_replace("/ triệu/", '000000', $text);
+				$text = str_replace(".", "", $text);
+			}
+			if(((int) $text) > 0 ){
+				$tmp += (int) $text;
+				$i= $i+1 ;
+			}
+
+			if( $i>9 )
+				break;
+		}
+		if($i)
+			$tmp=$tmp/$i;
+		//echo '<br> '.$value .": ". $tmp ;
+		if($tmp!=0)
+			InsertData($value,"Cửa hàng phụ kiện xe máy",$tmp) ;
+	//sleep(1);
+		unset($html);
+	}
+	LogHistory("Update ->Cửa hàng phụ kiện xe máy") ;
+}
+
+// INFO: Cửa hàng mỹ phẩm
+// PROVINCES :PROVINCE NAME
+function Insert_Cua_Hang_My_Pham($provinces) {
+	foreach ( $provinces as $key => $value ) {
+		$html = file_get_html('https://muaban.net/my-pham-nuoc-hoa-'.$key.'-c23');
+		$tmp= 0.0;
+		$i=0;
+
+		foreach($html->find('span.mbn-price') as $element) {
+			$text = $element->innertext;
+	// 	//DEBUG: 
+	// echo '<br> '.$value .": ". $tmp ;
+			if ((strpos($text, 'tỷ')) && !(strpos($text, 'triệu')) ) {
+				$text = preg_replace("/ tỷ /", '000000000', $text);
+			}
+			else{
+				$text = preg_replace("/ tỷ /", '', $text);
+				$text = preg_replace("/ triệu/", '000000', $text);
+				$text = str_replace(".", "", $text);
+			}
+			if(((int) $text) > 0 ){
+				$tmp += (int) $text;
+				$i= $i+1 ;
+			}
+
+			if( $i>9 )
+				break;
+		}
+		if($i)
+			$tmp=$tmp/$i;
+		//echo '<br> '.$value .": ". $tmp ;
+		if($tmp!=0)
+			InsertData($value,"Cửa hàng mỹ phẩm",$tmp) ;
+	//sleep(1);
+		unset($html);
+	}
+	LogHistory("Update ->Cửa hàng mỹ phẩm") ;
+}
+
+// INFO: cửa hàng bán đồ thể thao
+// provinces :province name
+function Insert_Cua_Hang_Ban_Do_The_Thao() {
+		$value ="Toàn Quốc";
+		$url="https://yousport.vn/";
+
+		$curl=curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_REFERER, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+		$str=curl_exec($curl);
+		curl_close($curl);
+
+		$html = new simple_html_dom();
+		$html->load($str);
+		//echo $html->innertext;	
+		$tmp= 0.0;
+		$i=0;
+
+		foreach($html->find('span.new') as $element) {
+			$text = $element->innertext;
+
+			$text = str_replace(",", "", $text);
+			$text = preg_replace('/[^0-9]/', '',$text);
+
+			if(((int) $text) > 0 ){
+				$tmp += (int) $text;
+				$i= $i+1 ;
+			}
+
+			if( $i>9 )
+				break;
+			//DEBUG:
+			 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+		}
+		if($i)
+			$tmp=$tmp/$i;
+		//echo '<br> '.$value .": ". $tmp ;
+		if($tmp!=0)
+			InsertData($value,"Cửa hàng bán đồ thể thao",$tmp) ;
+	//sleep(1);
+		unset($html);
+	
+	LogHistory("Update ->Cửa hàng bán đồ thể thao") ;
+}
+// INFO: cua hang thuc pham thu cung
+// provinces: province name
+function Insert_Cua_Hang_Thuc_Pham_Thu_Cung() {
+		$value ="Toàn Quốc";
+		$url="http://www.petcity.vn/thuc-an/c10.html";
+
+		$curl=curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_REFERER, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+
+		$str=curl_exec($curl);
+		curl_close($curl);
+
+		$html = new simple_html_dom();
+		$html->load($str);
+		//echo $html->innertext;	
+		$tmp= 0.0;
+		$i=0;
+
+		foreach($html->find('.p-price') as $element) {
+			$text = $element->innertext;
+
+			$text = str_replace(",", "", $text);
+			$text = preg_replace('/[^0-9]/', '',$text);
+
+			if(((int) $text) > 0 ){
+				$tmp += (int) $text;
+				$i= $i+1 ;
+			}
+
+			if( $i>9 )
+				break;
+			//DEBUG:
+			 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+		}
+		if($i)
+			$tmp=$tmp/$i;
+		//echo '<br> '.$value .": ". $tmp ;
+		if($tmp!=0)
+			InsertData($value,"Cửa hàng thực phẩm thú cưng",$tmp) ;
+	//sleep(1);
+		unset($html);
+	
+		LogHistory("Update ->Cửa hàng thực phẩm thú cưng") ;}
 ?>

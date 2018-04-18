@@ -7,7 +7,7 @@ $a = $_REQUEST['service'];
 
 // echo "<script>console.log('" . json_encode($a) . "');</script>";
 if(!isset($a)) return;
-$value= "Toàn Quốc";
+$valueDefault= "Toàn Quốc";
 $provinces= GetAllprovince(); 
 RemovePriceByID_DichVu($a);
 $ks="";
@@ -19,7 +19,7 @@ foreach( $a as $id_service ) {
 			continue;
 		switch ($id_service) {
 			case 3:
-				InsertData($value,"Bãi đỗ xe hơi","1200000") ;
+				InsertData($valueDefault,"Bãi đỗ xe hơi","1200000") ;
 				break;
 			case 5:
 				Insert_Bang_Dien_Tu_Led();
@@ -33,14 +33,35 @@ foreach( $a as $id_service ) {
 			case 14:
 				Insert_Cham_Soc_Suc_Khoe_Tai_Nha();
 				break;
+			case 22:
+				Insert_Cua_Hang_Ban_Do_The_Thao();
+				break;
 			case 27:
 				Insert_Cua_Hang_Dien_Tu_Van_Phong($provinces);
+				break;
+			case 30:
+				Insert_Cua_Hang_Dong_Ho();
 				break;
 			case 31:
 				Insert_Cua_Hang_Giay_Dep($provinces);
 				break;
+			case 35:
+				Insert_Cua_Hang_My_Pham($provinces);
+				break;
+			case 38: 
+				Insert_Cua_Hang_Phu_Tung_Xe_May($provinces);
+				break;
 			case 39:
 				Insert_Cua_Hang_Quan_Ao($provinces);
+				break;
+			case 42:
+				Insert_Cua_Hang_Thuc_Pham_Thu_Cung();
+				break;
+			case 72:
+				InsertData($valueDefault,"Giao hàng",30000);
+				break;
+			case 79:
+				InsertData($valueDefault,"Hồ bơi",30000);
 				break;
 			case 86:
 			case 87:
@@ -80,14 +101,29 @@ foreach( $a as $id_service ) {
 			case 125:
 				Insert_Rao_Vat_Ban_Xe_May_Cu($provinces);
 				break;
+			case 126:
+				InsertData($valueDefault,"Rạp chiếu phim",100000000000);
+				break;
+			case 131:
+				InsertData($valueDefault,"Siêu thị",250000000);
+				break;
+			case 140:
+				InsertData($valueDefault,"Taxi",110000);
+				break;
+			case 185:
+				InsertData($valueDefault,"Xăng",19700);
+				break;
 			case 187:
 				Insert_Xe_Ba_Banh();
 				break;
 			case 191:
-				InsertData($value,"Xe Đạp","30000") ;
+				InsertData($valueDefault,"Xe Đạp",30000) ;
 				break;
 			case 196:
 				Insert_Thue_Xe_May($provinces);
+				break;
+			case 197:
+				InsertData($valueDefault,"Xe ôm",42000);
 				break;
 			case 198:
 				Insert_Xe_Tai();
