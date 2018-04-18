@@ -132,5 +132,5 @@ foreach( $a as $id_service ) {
 			break;
 		}
 	}
-//echo "<script>alert('Update successfully'); location.href='logs';</script>";
+echo "<script>alert('Update successfully'); location.href='logs';</script>";
 	?>
