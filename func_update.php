@@ -10,13 +10,9 @@ if(!isset($a)) return;
 $valueDefault= "Toàn Quốc";
 $provinces= GetAllprovince(); 
 RemovePriceByID_DichVu($a);
-$ks="";
+
 foreach( $a as $id_service ) {
 //echo "<script>console.log(' Item:," . $id_service . ",');</script>";
-	//Hàm insert ks xử lí chung cho 6 dịch vụ liên quan
-	if($ks)
-		if($id_service==86||$id_service==87||$id_service==88||$id_service==89||$id_service==90||$id_service==91)
-			continue;
 		switch ($id_service) {
 			case 3:
 				InsertData($valueDefault,"Bãi đỗ xe hơi","1200000") ;
@@ -57,6 +53,9 @@ foreach( $a as $id_service ) {
 			case 42:
 				Insert_Cua_Hang_Thuc_Pham_Thu_Cung();
 				break;
+			case 66:
+				Insert_Dien_Thoai_May_Tinh();
+				break;
 			case 72:
 				InsertData($valueDefault,"Giao hàng",30000);
 				break;
@@ -64,14 +63,22 @@ foreach( $a as $id_service ) {
 				InsertData($valueDefault,"Hồ bơi",30000);
 				break;
 			case 86:
+				InsertData($valueDefault,"Khách sạn 01 sao",623500);
+				break;
 			case 87:
+				InsertData($valueDefault,"Khách sạn 02 sao",337125);
+				break;
 			case 88:
+				InsertData($valueDefault,"Khách sạn 03 sao",565500);
+				break;
 			case 89:
+				InsertData($valueDefault,"Khách sạn 04 sao",1645000);
+				break;
 			case 90:
+				InsertData($valueDefault,"Khách sạn 05 sao",2003375);
+				break;
 			case 91:
-		//echo "<script>console.log($id_service);</script>";
-				Insert_Khach_San($provinces);
-				$ks=true;
+				InsertData($valueDefault,"Khách sạn không đánh sao",458500);
 				break;
 			case 92:
 				Insert_Khu_Giai_Tri_Tre_Em();
@@ -110,6 +117,9 @@ foreach( $a as $id_service ) {
 			case 140:
 				InsertData($valueDefault,"Taxi",110000);
 				break;
+			case 165:
+				Insert_Trai_Cay();
+				break;
 			case 185:
 				InsertData($valueDefault,"Xăng",19700);
 				break;
@@ -132,5 +142,5 @@ foreach( $a as $id_service ) {
 			break;
 		}
 	}
-echo "<script>alert('Update successfully'); location.href='logs';</script>";
+//echo "<script>alert('Update successfully'); location.href='logs';</script>";
 	?>

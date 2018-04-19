@@ -29,7 +29,7 @@ echo date("'d-m-Y H:i:s'");
 // Insert_Rao_Vat_Dat_Ban($provinces);
 //Các hàm hỗ trợ
 //--------------------------------------------------
-//Insert_Cho_O() ;
+Insert_Cho_O() ;
 
 function GetAllProvince() {
 	$a = array();
@@ -55,75 +55,20 @@ function GetAllProvince() {
 	return $a;
 }
 
-//INFO: Rao vặt: Đất bán
-//key : name unsign, value :province name
-function Insert_Rao_Vat_Dat_Ban($provinces) {
-	
-		//$html = file_get_html('https://muaban.net/ban-dat-'.$key.'-c31');
-		$html = file_get_html('https://muaban.net/phu-tung-o-to-toan-quoc-l0-c45');
-		$tmp= 0.0;
-		$i=0;
-
-		foreach($html->find('span.mbn-price') as $element) {
-			$text = $element->innertext;
-	// 	//DEBUG: 
-	 		
-			if ((strpos($text, 'tỷ')) && !(strpos($text, 'triệu')) ) {
-				$text = preg_replace("/ tỷ /", '000000000', $text);
-			}
-			else{
-				$text = preg_replace("/ tỷ /", '', $text);
-				$text = preg_replace("/ triệu/", '000000', $text);
-				$text = str_replace(".", "", $text);
-			}
-			if(((int) $text) > 0 ){
-				echo '<br> >>>>>>'. (int) $text;
-				$tmp += (int) $text;
-				$i= $i+1 ;
-			}
-
-			if( $i>9 )
-				break;
-		}
-
-		if($i)
-			$tmp=$tmp/$i;
-		//echo '<br> '.$value .": ". $tmp ;
-
-		//InsertData($value,"Rao vặt: Đất bán",$tmp) ;
-	//sleep(1);
-		unset($html);
-	logErr("---------------Updated: \"Rao vặt: Đất bán\"------------------ ");
-}
 function Insert_Cho_O() {
 		$value ="Toàn Quốc";
-		$url="http://xome.vn/tim-kiem";
-
-		$curl=curl_init();
-		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-		curl_setopt($curl, CURLOPT_HEADER, false);
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_REFERER, $url);
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
-
-		$str=curl_exec($curl);
-		curl_close($curl);
-
-		$html = new simple_html_dom();
-		$html->load($str);
-		//echo $html->innertext;	
+		$url="http://www.minhphuongfruit.com/";
+		$html = file_get_html($url);	
 		$tmp= 0.0;
 		$i=0;
-
-		foreach($html->find(".product-price") as $element) {
+		foreach($html->find(".v2-home-pr-item-price") as $element) {
 			$text = $element->innertext;
-			echo '<br> raw'. $text ;
+			//echo '<br> raw'. $text ;
 			$text = str_replace(",", "", $text);
 			$text = preg_replace('/[^0-9]/', '',$text);
 
 			if(((int) $text) > 0 ){
-				echo '<br> >>>>>>'. (int) $text;
+				//echo '<br> >>>>>>'. (int) $text;
 				$tmp += (int) $text;
 				$i= $i+1 ;
 			}
@@ -131,18 +76,13 @@ function Insert_Cho_O() {
 			if( $i>9 )
 				break;
 			//DEBUG:
-			 // echo '<br> <br> <br> '.$value .": ". $tmp ;
+			// echo '<br> <br> <br> '.$value .": ". $tmp ;
 		}
-		echo "chia  ".$tmp ."cho" . $i;
+		//echo "chia  ".$tmp ."cho" . $i;
 		if($i)
 			$tmp=$tmp/$i;
-		echo "tong ket: ".$tmp;
-		//echo '<br> '.$value .": ". $tmp ;
-		//InsertData($value,"Chỗ ở",$tmp) ;
-	//sleep(1);
-		unset($html);
-	
-	echo "<br> ----------------Updated: \" Chỗ ở\"------------------ ";
+		//echo "KQQQ: ". $tmp;
+		
 }
 
 ?>
