@@ -88,7 +88,12 @@ include 'db_conf.php';
 					$a = mysqli_query($link, $sql1);
 
 					while ($row = $a->fetch_assoc()) {
-						echo "<li value='".$row['ID']."'>".$row['TENDICHVU']."</li>";
+						if($row['ID']!=64)
+							echo "<li value='".$row['ID']."'>".$row['TENDICHVU']."(*)</li>";
+						else {
+							echo "<li value='".$row['ID']."'>".$row['TENDICHVU']."</li>";
+						}
+
 					}
 					?>
 				</ul>
