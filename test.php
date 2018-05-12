@@ -1,83 +1,98 @@
 <?php
 // example of how to use basic selector to retrieve HTML contents
 include('assets/libs/simple_html_dom.php');
+include('common.php');
+include('db_access.php');
 set_time_limit(0);
+
+$services=array("Motel","1-star Hotel","2-star Hotel","3-star Hotel","4-star Hotel","5-star Hotel","Room for rent by hour","Room for rent by day","Room for rent by month","Home Stay by day","House/Villas for rent by day","House/Villas for rent by month");
+
 date_default_timezone_set("Asia/Bangkok");
-//echo date("'d-m-Y H:i:s'");
-$provinces= null; 
+$today= date('Y-m-d');
+$tomorrow= date("Y-m-d", strtotime("+1 day"));
+
+//variable singleton
 $arrProvinces;
-// if (!isset($_SESSION['username'])){
-// 	echo "<script type='text/javascript'>alert('Login failed');</script>";
-// 	echo ("<script>location.href='login.php'</script>");
-// 	return;
-//  }
-#region
-// RemoveAllPrice();
-// Insert_Rao_Vat_Dat_Ban($provinces);
-// Insert_Rao_Vat_Nha_Ban($provinces);
-// Insert_Rao_Vat_Dien_Thoai_May_Tinh($provinces);
-// Insert_Rao_Vat_May_Quay_Phim($provinces);
-// Insert_Rao_Vat_Ban_O_To_Cu($provinces);
-// Insert_Rao_Vat_Ban_Xe_May_Cu($provinces);
-// Insert_Rao_Vat_Cay_Canh() ;
-// Insert_Rao_Vat_Cay_Giong();
-// // Hàm lấy dữ liệu 5 dịch vụ liên quan khách sạn
-// Delete_Khach_San();
-// Insert_Khach_San($provinces);
-#endregion
-// Insert_Rao_Vat_Dat_Ban($provinces);
-//Các hàm hỗ trợ
-//--------------------------------------------------
-//Insert_Cho_O() ;
+Init($services,GetProvinceList());
+
+
+//---------START-------
 //echo GetHotelPrices("11931,377108,41125,66150,11850,12313");
 //Insert_Khach_San($provinces);
-print_r(GetProvinceList());
 
-function Insert_Cho_O() {
-		$value ="Toàn Quốc";
-		$url="http://www.minhphuongfruit.com/";
-		$html = file_get_html($url);	
-		$tmp= 0.0;
-		$i=0;
-		foreach($html->find(".v2-home-pr-item-price") as $element) {
-			$text = $element->innertext;
-			//echo '<br> raw'. $text ;
-			$text = str_replace(",", "", $text);
-			$text = preg_replace('/[^0-9]/', '',$text);
+Insert_Khach_San(GetProvinceList());
+//Insert_Khach_San_05_Sao("Toàn Quốc","https://www.ivivu.com/khach-san-"."viet-nam");
 
-			if(((int) $text) > 0 ){
-				//echo '<br> >>>>>>'. (int) $text;
-				$tmp += (int) $text;
-				$i= $i+1 ;
-			}
 
-			if( $i>9 )
-				break;
-			//DEBUG:
-			// echo '<br> <br> <br> '.$value .": ". $tmp ;
-		}
-		//echo "chia  ".$tmp ."cho" . $i;
-		if($i)
-			$tmp=$tmp/$i;
-		//echo "KQQQ: ". $tmp;
-		
-}
-//return json data
-function GetHotelPrices($arrIds) {
+//return price 
+function GetHotelPrices($hotelIds) {
 $url = 'https://pay.ivivu.com/api/contracting/HotelsSearchPrice';
 $ch = curl_init($url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-curl_setopt($ch, CURLOPT_POSTFIELDS, "RoomNumber=1&StatusMethod=2&HotelIdInternal=".$arrIds."&RoomsRequest[0][RoomIndex]=1&RoomsRequest[0][Adults][label]=1&RoomsRequest[0][Adults][value]=2&RoomsRequest[0][Child][label]=0&CheckInDate=2018-05-10&CheckOutDate=2018-05-11");
+curl_setopt($ch, CURLOPT_POSTFIELDS, "RoomNumber=1&StatusMethod=2&SearchType=2&HotelIds=".$hotelIds."&RoomsRequest[0][RoomIndex]=1&RoomsRequest[0][Adults][label]=1&RoomsRequest[0][Adults][value]=2&RoomsRequest[0][Child][label]=0&CheckInDate=".$GLOBALS['today']."&CheckOutDate=".$GLOBALS['tomorrow']);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array('content-type:application/x-www-form-urlencoded'));
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
 $result = curl_exec($ch);
 curl_close($ch);
-return $result;
-}
+$jsonData = json_decode($result, true);
+
+ $hotelSummary =$jsonData["HotelListResponse"]["HotelList"]["HotelSummary"];
+ $count=0;
+ $sum=0;
+//    var_dump($hotelSummary);
+//    return;
+    if(!isset($hotelSummary)) return 0;
+ foreach ($hotelSummary as $key) {
+     $count+=1;
+     $sum+=$key["lowRateOta"];
+    
+     echo $key["name"] ."XXX".$key["lowRateOta"] ."<br>";
+      if($count>9) break;
+    }
+
+if($count)
+    $sum=$sum/$count;
+return (int)$sum;
+}	
+//Crawler
 function Insert_Khach_San($provinces) {
-	//	foreach ( $provinces as $key => $value ) {
-		$url="https://www.ivivu.com/khach-san-viet-nam";
+    
+    $i=0;
+    foreach($provinces as $tag){
+       echo "<br> ".$tag. "______________________________________ <br> ";
+        $i+=1;
+//				#region Custom Province
+        if(strcmp($tag, "Đắk Lắk")==0) 
+            $currentPath="https://www.ivivu.com/khach-san-"."daklak";
+        else if(strcmp($tag, "TP Hồ Chí Minh")==0) 
+            $currentPath="https://www.ivivu.com/khach-san-"."ho-chi-minh";
+        else if(strcmp($tag, "Bình Thuận")==0) 
+            $currentPath="https://www.ivivu.com/khach-san-"."lagi";
+        else if(strcmp($tag, "An Giang")==0) 
+            $currentPath="https://www.ivivu.com/khach-san-"."chau-doc";
+        else if(strcmp($tag, "Bà Rịa - Vũng Tàu")==0) 
+            $currentPath="https://www.ivivu.com/khach-san-"."vung-tau";
+        else if(strcmp($tag, "Toàn Quốc")==0) 
+            $currentPath="https://www.ivivu.com/khach-san-"."viet-nam";
+        else
+            $currentPath="https://www.ivivu.com/khach-san-".convert_vi_to_en($tag);
+//         echo "$currentPath<br>";
+ 
+        Insert_Khach_San_01_Sao($tag,$currentPath);
+        Insert_Khach_San_02_Sao($tag,$currentPath);
+        Insert_Khach_San_03_Sao($tag,$currentPath);
+        Insert_Khach_San_04_Sao($tag,$currentPath);
+        Insert_Khach_San_05_Sao($tag,$currentPath);
+
+//        return;
+        #endregion
+    }
+}
+function Insert_Khach_San_05_Sao($currentProvince,$currentPath){
+    $TAG="5-star Hotel";
+		$url=$currentPath;
+//    	$url=$currentPath ."?s=50";
 		$curl=curl_init();
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
 		curl_setopt($curl, CURLOPT_HEADER, false);
@@ -88,55 +103,225 @@ function Insert_Khach_San($provinces) {
 		$str=curl_exec($curl);
 		curl_close($curl);
 		$html = new simple_html_dom();
+    
+//       $str =preg_replace('%<script\b(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|[^>"]++)*>(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|//.*?\n|/\*(?:[^\*]++|\*)*?\*/|[^<"/]++|/|(?R)|<)*?</\s*script>%si', '', $str);
 		$html->load($str);
-		//echo "<br> <br> ". $html->plaintext;
-		// $tmp= 0.0;
-		// $i=0;
-		foreach($html->find('ul.left-region li a') as $element) {
-			//$text = $element->innertext;
-			$currentPath= "https:". $element->href;
-			$currentProvince = null;
-			// Tìm tên vùng ứng với link
-			foreach($provinces as $tag){
-				#region Custom Province
-				if(strpos($element->href, "daklak")) {
-					$currentProvince = "Đắk Lắk";
-					break;
-					}
-				else if(strpos($element->href, "ho-chi-minh") ){
-					$currentProvince="TP Hồ Chí Minh";
-					break;
-					}
-				else if(strpos($element->href, "lagi") ){
-					$currentProvince="Bình Thuận";
-					break;
-					}
-				else if(strpos($element->href, "chau_doc") ){
-					$currentProvince="An Giang";
-					break;
-				}
-				else if(strpos($element->href, "vung-tau") ){
-					$currentProvince="Bà Rịa - Vũng Tàu";
-					break;
-				}
-				else if(strpos($element->href, convert_vi_to_en($tag))){
-					$currentProvince =$tag;
-					break;
-				}
-				#endregion 
-			}
-			// Try parse link html
-            echo $currentProvince;
-//			if(strlen($currentProvince)){
-//				Insert_Khach_San_01_Sao($currentProvince,$currentPath);
-//				Insert_Khach_San_02_Sao($currentProvince,$currentPath);
-//				Insert_Khach_San_03_Sao($currentProvince,$currentPath);
-//				Insert_Khach_San_04_Sao($currentProvince,$currentPath);
-//				Insert_Khach_San_05_Sao($currentProvince,$currentPath);
-//			}
+		foreach($html->find('script') as $element) {
+			$text = $element->innertext;
+            if(strpos($text,"hotelIdsLoadFirst"))
+            {
+                //Get id inner script tag
+                $tmp=$text;
+                $pos1=strpos($tmp,"{");
+                $pos2=strpos($tmp,"}");
+                $tmp=substr($tmp,$pos1,$pos2-$pos1+1);
+                $a =json_decode($tmp);
+                $hotelIds="";
+                foreach ($a as $key => $value) { 
+                  //  echo $key."->".$value."<br>"; 
+                    $hotelIds.=",".$key;
+                }
+                $hotelIds=substr($hotelIds,1);
+               // $prices=Get
+                echo "hotelIds:" . $hotelIds."<br>";
+                //Call API to get prices
+                $price=GetHotelPrices($hotelIds);
+               InsertToExcel($TAG,$currentProvince,$price);
+                break;
+            }
 		}
-	}
-
+}
+function Insert_Khach_San_04_Sao($currentProvince,$currentPath){
+    $TAG="4-star Hotel";
+		$url=$currentPath ."?s=40";
+		$curl=curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_REFERER, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+		$str=curl_exec($curl);
+		curl_close($curl);
+		$html = new simple_html_dom();
+    
+//       $str =preg_replace('%<script\b(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|[^>"]++)*>(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|//.*?\n|/\*(?:[^\*]++|\*)*?\*/|[^<"/]++|/|(?R)|<)*?</\s*script>%si', '', $str);
+		$html->load($str);
+		foreach($html->find('script') as $element) {
+			$text = $element->innertext;
+            if(strpos($text,"hotelIdsLoadFirst"))
+            {
+                //Get id inner script tag
+                $tmp=$text;
+                $pos1=strpos($tmp,"{");
+                $pos2=strpos($tmp,"}");
+                $tmp=substr($tmp,$pos1,$pos2-$pos1+1);
+                $a =json_decode($tmp);
+                $hotelIds="";
+                foreach ($a as $key => $value) { 
+                  //  echo $key."->".$value."<br>"; 
+                    $hotelIds.=",".$key;
+                }
+                $hotelIds=substr($hotelIds,1);
+               // $prices=Get
+                echo "hotelIds:" . $hotelIds."<br>";
+                //Call API to get prices
+                $price=GetHotelPrices($hotelIds);
+                
+                InsertToExcel($TAG,$currentProvince,$price);
+                break;
+            }
+		}
+}
+function Insert_Khach_San_03_Sao($currentProvince,$currentPath){
+    $TAG="3-star Hotel";
+		$url=$currentPath."?s=30";
+		$curl=curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_REFERER, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+		$str=curl_exec($curl);
+		curl_close($curl);
+		$html = new simple_html_dom();
+    
+//       $str =preg_replace('%<script\b(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|[^>"]++)*>(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|//.*?\n|/\*(?:[^\*]++|\*)*?\*/|[^<"/]++|/|(?R)|<)*?</\s*script>%si', '', $str);
+		$html->load($str);
+		foreach($html->find('script') as $element) {
+			$text = $element->innertext;
+            if(strpos($text,"hotelIdsLoadFirst"))
+            {
+                //Get id inner script tag
+                $tmp=$text;
+                $pos1=strpos($tmp,"{");
+                $pos2=strpos($tmp,"}");
+                $tmp=substr($tmp,$pos1,$pos2-$pos1+1);
+                $a =json_decode($tmp);
+                $hotelIds="";
+                foreach ($a as $key => $value) { 
+                  //  echo $key."->".$value."<br>"; 
+                    $hotelIds.=",".$key;
+                }
+                $hotelIds=substr($hotelIds,1);
+               // $prices=Get
+                echo "hotelIds:" . $hotelIds."<br>";
+                //Call API to get prices
+                $price=GetHotelPrices($hotelIds);
+                InsertToExcel($TAG,$currentProvince,$price);
+                break;
+            }
+		}
+}
+function Insert_Khach_San_02_Sao($currentProvince,$currentPath){
+    $TAG="2-star Hotel";
+		$url=$currentPath."?s=20" ;
+		$curl=curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_REFERER, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+		$str=curl_exec($curl);
+		curl_close($curl);
+		$html = new simple_html_dom();
+    
+//       $str =preg_replace('%<script\b(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|[^>"]++)*>(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|//.*?\n|/\*(?:[^\*]++|\*)*?\*/|[^<"/]++|/|(?R)|<)*?</\s*script>%si', '', $str);
+		$html->load($str);
+		foreach($html->find('script') as $element) {
+			$text = $element->innertext;
+            if(strpos($text,"hotelIdsLoadFirst"))
+            {
+                //Get id inner script tag
+                $tmp=$text;
+                $pos1=strpos($tmp,"{");
+                $pos2=strpos($tmp,"}");
+                $tmp=substr($tmp,$pos1,$pos2-$pos1+1);
+                $a =json_decode($tmp);
+                $hotelIds="";
+                foreach ($a as $key => $value) { 
+                  //  echo $key."->".$value."<br>"; 
+                    $hotelIds.=",".$key;
+                }
+                $hotelIds=substr($hotelIds,1);
+               // $prices=Get
+                echo "hotelIds:" . $hotelIds."<br>";
+                //Call API to get prices
+                $price=GetHotelPrices($hotelIds);
+                InsertToExcel($TAG,$currentProvince,$price);
+                break;
+            }
+		}
+}
+function Insert_Khach_San_01_Sao($currentProvince,$currentPath){
+    $TAG="1-star Hotel";
+		$url=$currentPath ."?s=10";
+		$curl=curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_REFERER, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+		$str=curl_exec($curl);
+		curl_close($curl);
+		$html = new simple_html_dom();
+    
+//       $str =preg_replace('%<script\b(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|[^>"]++)*>(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|//.*?\n|/\*(?:[^\*]++|\*)*?\*/|[^<"/]++|/|(?R)|<)*?</\s*script>%si', '', $str);
+		$html->load($str);
+		foreach($html->find('script') as $element) {
+			$text = $element->innertext;
+            if(strpos($text,"hotelIdsLoadFirst"))
+            {
+                //Get id inner script tag
+                $tmp=$text;
+                $pos1=strpos($tmp,"{");
+                $pos2=strpos($tmp,"}");
+                $tmp=substr($tmp,$pos1,$pos2-$pos1+1);
+                $a =json_decode($tmp);
+                $hotelIds="";
+                foreach ($a as $key => $value) { 
+                  //  echo $key."->".$value."<br>"; 
+                    $hotelIds.=",".$key;
+                }
+                $hotelIds=substr($hotelIds,1);
+               // $prices=Get
+                echo "hotelIds:" . $hotelIds."<br>";
+                //Call API to get prices
+                $price=GetHotelPrices($hotelIds);
+                InsertToExcel($TAG,$currentProvince,$price);
+                break;
+            }
+		}
+}
+function InsertToExcel($service,$currentProvince,$price){
+    LoadFile();
+    
+    $arrProvinces= GetProvinceList();
+    $posService=array_search($service, $GLOBALS['services']);
+//     echo "<br> LOG : Dich vu". $service."".$posService."XX<br>";
+  //  var_dump($GLOBALS['services']);
+    if(strcmp($currentProvince,$arrProvinces[63])==0){
+         $GLOBALS['excelReader']->setActiveSheetIndex(0)
+            ->setCellValue('B'.($posService+2),$price);
+     echo "LOG : Dv".$service ."-".$currentProvince." pos:".'B'.($posService+2)." price:".$price."<br>";
+    }
+        
+    else{
+        $posProvince=array_search($currentProvince, $arrProvinces);
+         $GLOBALS['excelReader']->setActiveSheetIndex(0)
+            ->setCellValue(COLUMNS_NAME[$posProvince+2].($posService+2),$price);
+        
+  
+        echo "LOG : Dv".$service ."-".$currentProvince." pos:".COLUMNS_NAME[$posProvince+2].($posService+2)." price:".$price."<br>";
+    }
+     
+    //Log
+    InserLog($service,$currentProvince,$price);
+    SaveFile();
+};
 function GetProvinceList(){
     if(isset($GLOBALS['arrProvinces']))
         return $GLOBALS['arrProvinces'];
