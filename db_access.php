@@ -74,7 +74,7 @@ function SaveFile(){
     $objWriter->save($GLOBALS['tmpfname']);
     $objWriter1 = PHPExcel_IOFactory::createWriter($GLOBALS['excelReaderLog'], 'Excel2007');
     $objWriter1->save($GLOBALS['tmpfnamelog']);
-    echo "<br> ________SAVED____________";
+    echo "<br> ________SAVED____________<br>";
 }
 function LoadFile(){
     $GLOBALS['excelReader'] = PHPExcel_IOFactory::createReaderForFile($GLOBALS['tmpfname']);
