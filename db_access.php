@@ -21,8 +21,7 @@ function Init($services,$arrProvinces){
 
     if(file_exists($nameFile)){
         // backup
-         while (file_exists($nameFile))
-             $nameFile=$nameFile.'.bak';
+        $nameFile=$nameFile.'.bak';
         copy("Database.xlsx", $nameFile);
         return;  
     }
@@ -47,8 +46,8 @@ function Init($services,$arrProvinces){
             ->setCellValue('A'. $i, $value);
         $i+=1;
     }
-    echo date('H:i:s') , " Rename worksheet" , EOL;
-    echo date('H:i:s') , $objPHPExcel->setActiveSheetIndex(0)->getHighestRow() ."xx".$objPHPExcel->setActiveSheetIndex(0)->getHighestColumn() , EOL;
+  //  echo date('H:i:s') , " Rename worksheet" , EOL;
+  //  echo date('H:i:s') , $objPHPExcel->setActiveSheetIndex(0)->getHighestRow() ."xx".$objPHPExcel->setActiveSheetIndex(0)->getHighestColumn() , EOL;
 $objPHPExcel->getActiveSheet()->setTitle('Simple');
 // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
@@ -61,6 +60,11 @@ $objWriter->save("Database.xlsx");
     //Create file log
     if (!file_exists($GLOBALS['tmpfnamelog'])){
             $objPHPExcelLog= new PHPExcel();
+            $objPHPExcelLog->setActiveSheetIndex(0)
+                ->setCellValue("A1","Time" )
+                ->setCellValue("B1","Service" )
+                ->setCellValue("C1","Province" )
+                ->setCellValue("D1","Price" );
             $objPHPExcelLog->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
             $objWriterLog = PHPExcel_IOFactory::createWriter($objPHPExcelLog, 'Excel2007');
             $objWriterLog->save($GLOBALS['tmpfnamelog']);
@@ -74,7 +78,7 @@ function SaveFile(){
     $objWriter->save($GLOBALS['tmpfname']);
     $objWriter1 = PHPExcel_IOFactory::createWriter($GLOBALS['excelReaderLog'], 'Excel2007');
     $objWriter1->save($GLOBALS['tmpfnamelog']);
-    echo "<br> ________SAVED____________<br>";
+    //echo "<br> ________SAVED____________<br>";
 }
 function LoadFile(){
     $GLOBALS['excelReader'] = PHPExcel_IOFactory::createReaderForFile($GLOBALS['tmpfname']);
@@ -93,7 +97,7 @@ function InserLog($service,$province,$price){
             ->setCellValue("D". ($lastRow+1),$price );
 }
 function Show(){
-    $tmpfname = "Database.xlsx";
+    $tmpfname = "Log.xlsx";
     $excelReader = PHPExcel_IOFactory::createReaderForFile($tmpfname);
     $excelObj = $excelReader->load($tmpfname);
     $worksheet = $excelObj->getSheet(0);
@@ -105,6 +109,10 @@ function Show(){
          echo $worksheet->getCell('A'.$row)->getValue();
          echo "</td><td>";
          echo $worksheet->getCell('B'.$row)->getValue();
+         echo "</td><td>";
+         echo $worksheet->getCell('C'.$row)->getValue();
+         echo "</td><td>";
+         echo $worksheet->getCell('D'.$row)->getValue();
          echo "</td><tr>";
     }
     echo "</table>";	

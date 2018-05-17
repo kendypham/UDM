@@ -19,7 +19,7 @@ $USD= ConvertUSDToVND();
 
 //echo $USD;
 Init($services,GetProvinceList());
-
+$isUpdate=true;
 switch($key){
     case 0:
         Crawler_Motel();
@@ -50,10 +50,14 @@ switch($key){
         Crawler_House_Villas_for_rent_by_month();
         break;
     default :
+        $isUpdate=false;
         break;
         
 }
-
+if($isUpdate)
+    echo "success";
+else
+    echo "failure";
 //return price 
 function GetHotelPrices($ids,$type) {
     
@@ -81,7 +85,7 @@ if(!isset($hotelSummary)) return 0;
      $count+=1;
      $sum+=$key["lowRateOta"];
     
-     echo $key["name"] ."XXX".$key["lowRateOta"] ."<br>";
+    // echo $key["name"] ."XXX".$key["lowRateOta"] ."<br>";
       if($count>9) break;
     }
 
@@ -104,7 +108,7 @@ function Insert_Khach_San($provinces) {
     
     $i=0;
     foreach($provinces as $province){
-       echo "<br> ".$province. "______________________________________ <br> ";
+      // echo "<br> ".$province. "______________________________________ <br> ";
         $i+=1;
 //		#region Custom Province
         if(strcmp($province, "Đắk Lắk")==0) 
@@ -167,8 +171,8 @@ function Crawl_Hotel($currentProvince,$currentPath,$TAG,$end_path){
                 $hotelIds=substr($hotelIds,1);
                 $hotelIdInternal=substr($hotelIdInternal,1);
                // $prices=Get
-                echo "hotelIds:" . $hotelIds."<br>";
-                echo "hotelIdInternal:" . $hotelIdInternal."<br>";
+//                echo "hotelIds:" . $hotelIds."<br>";
+//                echo "hotelIdInternal:" . $hotelIdInternal."<br>";
                 //Call API to get prices
                 $price=GetHotelPrices($hotelIds,2);
                 if($price==0)
@@ -380,7 +384,7 @@ function InsertToExcel($service,$currentProvince,$price){
     if(strcmp($currentProvince,$arrProvinces[63])==0){
          $GLOBALS['excelReader']->setActiveSheetIndex(0)
             ->setCellValue('B'.($posService+2),$price);
-     echo "LOG : Dv ".$service ."-".$currentProvince." pos:".'B'.($posService+2)." price:".$price."<br>";
+  //   echo "LOG : Dv ".$service ."-".$currentProvince." pos:".'B'.($posService+2)." price:".$price."<br>";
     }
         
     else{
@@ -389,7 +393,7 @@ function InsertToExcel($service,$currentProvince,$price){
             ->setCellValue(COLUMNS_NAME[$posProvince+2].($posService+2),$price);
         
   
-        echo "LOG : Dv ".$service ."-".$currentProvince." pos:".COLUMNS_NAME[$posProvince+2].($posService+2)." price:".$price."<br>";
+       // echo "LOG : Dv ".$service ."-".$currentProvince." pos:".COLUMNS_NAME[$posProvince+2].($posService+2)." price:".$price."<br>";
     }
      
     //Log  echo "2XXXx XXXXXXXXX".$currentProvince;
