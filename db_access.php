@@ -18,7 +18,18 @@ $excelReaderLog;
 // Create new PHPExcel object
 function Init($services,$arrProvinces){
     $nameFile="Database.xlsx";
-
+    //Create file log
+    if (!file_exists($GLOBALS['tmpfnamelog'])){
+            $objPHPExcelLog= new PHPExcel();
+            $objPHPExcelLog->setActiveSheetIndex(0)
+                ->setCellValue("A1","Time" )
+                ->setCellValue("B1","Service" )
+                ->setCellValue("C1","Province" )
+                ->setCellValue("D1","Price" );
+            $objPHPExcelLog->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
+            $objWriterLog = PHPExcel_IOFactory::createWriter($objPHPExcelLog, 'Excel2007');
+            $objWriterLog->save($GLOBALS['tmpfnamelog']);
+}
     if(file_exists($nameFile)){
         // backup
         $nameFile=$nameFile.'.bak';
@@ -57,19 +68,7 @@ $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
 $objWriter->save("Database.xlsx");
     
     
-    //Create file log
-    if (!file_exists($GLOBALS['tmpfnamelog'])){
-            $objPHPExcelLog= new PHPExcel();
-            $objPHPExcelLog->setActiveSheetIndex(0)
-                ->setCellValue("A1","Time" )
-                ->setCellValue("B1","Service" )
-                ->setCellValue("C1","Province" )
-                ->setCellValue("D1","Price" );
-            $objPHPExcelLog->getActiveSheet()->getColumnDimension('A')->setAutoSize(true);
-            $objWriterLog = PHPExcel_IOFactory::createWriter($objPHPExcelLog, 'Excel2007');
-            $objWriterLog->save($GLOBALS['tmpfnamelog']);
-            
-}
+
 }
 // Rename worksheet
 function SaveFile(){

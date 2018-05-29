@@ -12,7 +12,6 @@ $today= date('Y-m-d');
 $tomorrow= date("Y-m-d", strtotime("+1 day"));
 
 $key= $_GET['key'];
-
 //variable singleton
 $arrProvinces;
 $USD= ConvertUSDToVND();
@@ -20,6 +19,9 @@ $USD= ConvertUSDToVND();
 //echo $USD;
 Init($services,GetProvinceList());
 $isUpdate=true;
+if($key==NULL){
+    return;
+}
 switch($key){
     case 0:
         Crawler_Motel();
