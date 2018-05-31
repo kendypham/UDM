@@ -86,14 +86,15 @@ function LoadFile(){
     $GLOBALS['excelReaderLog'] = PHPExcel_IOFactory::createReaderForFile($GLOBALS['tmpfnamelog']);
     $GLOBALS['excelReaderLog'] = $GLOBALS['excelReaderLog']->load($GLOBALS['tmpfnamelog']);
 }
-function InserLog($service,$province,$price){
+function InserLog($service,$province,$price,$detail){
     $worksheet = $GLOBALS['excelReaderLog']->getSheet(0);
     $lastRow = $worksheet->getHighestRow();
     $GLOBALS['excelReaderLog']->setActiveSheetIndex(0)
             ->setCellValue("A".( $lastRow+1),date('d-m-Y H:i:s') )
             ->setCellValue("B". ($lastRow+1),$service)
             ->setCellValue("C". ($lastRow+1),$province )
-            ->setCellValue("D". ($lastRow+1),$price );
+            ->setCellValue("D". ($lastRow+1),$price )
+            ->setCellValue("E". ($lastRow+1),$detail );
 }
 function Show(){
     $tmpfname = "Log.xlsx";

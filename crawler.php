@@ -11,13 +11,20 @@ date_default_timezone_set("Asia/Bangkok");
 $today= date('Y-m-d');
 $tomorrow= date("Y-m-d", strtotime("+1 day"));
 
+
 $key= $_GET['key'];
 //variable singleton
 $arrProvinces;
+$listProvince;
+//-----------TEST----------
+
+//-------_End Test
 $USD= ConvertUSDToVND();
 
 //echo $USD;
 Init($services,GetProvinceList());
+//Crawl_Hotel("Toàn Quốc","https://www.ivivu.com/khach-san-viet-nam",$GLOBALS['services'][4],"?s=30");
+//return;
 $isUpdate=true;
 if($key==NULL){
     return;
@@ -26,6 +33,7 @@ switch($key){
     case 0:
         Crawler_Motel();
         Insert_Khach_San(GetProvinceList());
+        Insert_Khach_San_Ver2(GetProvinceList());
         Crawler_Room_By_Hour();
         Crawler_Room_By_Day();
         Crawler_Room_By_Month();
@@ -38,6 +46,7 @@ switch($key){
         break;
     case 2:
          Insert_Khach_San(GetProvinceList());
+         Insert_Khach_San_Ver2(GetProvinceList());
         break;   
     case 3:
         Crawler_Room_By_Hour();
@@ -54,12 +63,156 @@ switch($key){
     default :
         $isUpdate=false;
         break;
-        
 }
 if($isUpdate)
     echo "success";
 else
     echo "failure";
+//$listProvince;
+function GetIdForGoTrip($provinces){
+    if(isset($GLOBALS['$listProvince']))
+        return $GLOBALS['$listProvince'];
+    $GLOBALS['$listProvince']= array();
+    $url="http://gotrip.vn/khach-san-long-xuyen/";
+    $curl=curl_init();
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, false);
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0) Gecko/20100101 Firefox/42.0'));
+		$str=curl_exec($curl);
+		curl_close($curl);
+		$html = new simple_html_dom();
+        $html->load($str);
+
+    foreach($html->find('#scatid option') as $element) {
+        $text = $element->innertext;
+        
+        foreach($provinces as $province){
+            if(strpos($text,$province)){
+                $GLOBALS['$listProvince'][$province]=$element->value;
+            }
+        }
+    }
+    $GLOBALS['$listProvince']["Quảng Nam"]='10';
+    $GLOBALS['$listProvince']["Quảng Ninh"]='11';
+    $GLOBALS['$listProvince']["Thừa Thiên Huế"]='13';
+    $GLOBALS['$listProvince']["Bà Rịa - Vũng Tàu"]='15';
+    $GLOBALS['$listProvince']["Kiên Giang"]='16';
+    $GLOBALS['$listProvince']["Hải Phòng"]='54';
+    $GLOBALS['$listProvince']["Đồng Nai"]='68';
+    $GLOBALS['$listProvince']["An Giang"]='70';
+    $GLOBALS['$listProvince']["Bình Định"]='22';
+    $GLOBALS['$listProvince']["Lâm Đồng"]='26';
+    $GLOBALS['$listProvince']["TP Hồ Chí Minh"]='33';
+    $GLOBALS['$listProvince']["Cà Mau"]='43';
+    return $GLOBALS['$listProvince'];
+
+}
+
+function Insert_Khach_San_Ver2($provinces) {
+    $pathroot="http://gotrip.vn/";
+    $i=0;
+    $catid;
+    foreach($provinces as $province){
+
+            $i+=1;
+
+            if(strcmp($province, "Quảng Nam")==0) 
+                $currentPath=$pathroot."khach-san-hoi-an/";
+            else if(strcmp($province, "Quảng Ninh")==0) 
+                $currentPath=$pathroot."khach-san-ha-long/";
+            else if(strcmp($province, "Thừa Thiên Huế")==0) 
+                $currentPath=$pathroot."khach-san-hue/";
+            else if(strcmp($province, "Bà Rịa - Vũng Tàu")==0) 
+                $currentPath=$pathroot."khach-san-vung-tau/";
+            else if(strcmp($province, "Kiên Giang")==0) 
+                $currentPath=$pathroot."khach-san-phu-quoc/";
+            else if(strcmp($province, "Hải Phòng")==0) 
+                $currentPath=$pathroot."khach-san-tai-hai-phong/";  
+            else if(strcmp($province, "Đồng Nai")==0) 
+                $currentPath=$pathroot."khach-san-nam-cat-tien/";
+             else if(strcmp($province, "An Giang")==0) 
+                $currentPath=$pathroot."khach-san-long-xuyen/";    
+            else if(strcmp($province, "Bình Định")==0) 
+                $currentPath=$pathroot."khach-san-quy-nhon/";
+            else if(strcmp($province, "Lâm Đồng")==0) 
+                $currentPath=$pathroot."khach-san-da-lat/";
+            else if(strcmp($province, "TP Hồ Chí Minh")==0) 
+                $currentPath=$pathroot."khach-san-sai-gon-tphcm/";
+            else if(strcmp($province, "Cà Mau")==0) 
+                $currentPath=$pathroot."khach-san-tai-ca-mau/";
+            else
+                $currentPath=$pathroot."khach-san-".convert_vi_to_en($province);
+        
+        if(!isset(GetIdForGoTrip($provinces)[$province]))
+            continue;
+        $catid;
+        $catid=GetIdForGoTrip($provinces)[$province];
+        $url = 'http://gotrip.vn/index.php?language=vi&nv=hotels&op=filter_hotels&catid='.$catid;
+        $ch=array();
+        $mh = curl_multi_init();
+        for($i=2;$i<6;$i++){
+            $ch[$i] = curl_init($url);
+            //uild the individual requests, but do not execute them
+            curl_setopt($ch[$i], CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch[$i], CURLOPT_POSTFIELDS, "starcheck=".$i);
+            curl_setopt($ch[$i], CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch[$i], CURLOPT_TIMEOUT_MS, 20000);
+            curl_setopt($ch[$i], CURLOPT_HTTPHEADER, array('accept: */*',
+                                        'accept-encoding: gzip, deflate',
+                                        'accept-language: en-US,en;q=0.8',
+                                        'content-type: application/x-www-form-urlencoded',
+                                        'referer: '.$currentPath,
+                                        'x-requested-with: XMLHttpRequest',
+                                        'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36'));
+           // build the multi-curl handle, adding both $ch
+            curl_multi_add_handle($mh, $ch[$i]);
+            }
+          // execute all queries simultaneously, and continue when all are complete
+          $running = null;
+          do {
+            curl_multi_exec($mh, $running);
+          } while ($running);
+
+        //close the handles
+        for($i=2;$i<6;$i++){
+           
+            curl_multi_remove_handle($mh, $ch[$i]);
+        }
+        curl_multi_close($mh);
+            $response= array();
+
+        for($i=2;$i<6;$i++){
+            $TAG=$GLOBALS['services'][$i+1];
+            $response[$i] = curl_multi_getcontent($ch[$i]);
+
+            $html = new simple_html_dom();
+            $html->load($response[$i]);
+
+            $j=0;
+            $tmp=0;
+            foreach($html->find('div.price') as $element){
+                $text= str_replace(".","",$element->innertext);
+                if($text>0){
+                    $price =(int)$text;
+                    $tmp+=$price;
+                    $j+=1;
+                }
+                
+                if($j>9) break;
+               
+            };
+            if($j>0){
+                 $tmp /=$j;
+                 InsertToExcel($TAG,$province,$tmp,"gotrip.vn");
+                 Sleep(2);
+            }
+        }
+
+    }
+}
 //return price 
 function GetHotelPrices($ids,$type) {
     
@@ -87,7 +240,6 @@ if(!isset($hotelSummary)) return 0;
      $count+=1;
      $sum+=$key["lowRateOta"];
     
-    // echo $key["name"] ."XXX".$key["lowRateOta"] ."<br>";
       if($count>9) break;
     }
 
@@ -99,8 +251,6 @@ function ConvertUSDToVND(){
     $str = file_get_contents("https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=VND");
     $html = new simple_html_dom();
     $html->load($str);
-    //echo $html;
-    
     $rs= $html->find('span.uccResultAmount')[0]->innertext;
     $rs= (int) str_replace(",", '', $rs);   
     return $rs;
@@ -150,8 +300,7 @@ function Crawl_Hotel($currentProvince,$currentPath,$TAG,$end_path){
 		$str=curl_exec($curl);
 		curl_close($curl);
 		$html = new simple_html_dom();
-    
-//       $str =preg_replace('%<script\b(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|[^>"]++)*>(?:"(?:[^"\\\\\\\\]++|\\\\\\\\.)*+"|\'(?:[^\\\\\\\\]++|\\\\\\\\.)*+\'|//.*?\n|/\*(?:[^\*]++|\*)*?\*/|[^<"/]++|/|(?R)|<)*?</\s*script>%si', '', $str);
+
 		$html->load($str);
 		foreach($html->find('script') as $element) {
 			$text = $element->innertext;
@@ -179,7 +328,7 @@ function Crawl_Hotel($currentProvince,$currentPath,$TAG,$end_path){
                 $price=GetHotelPrices($hotelIds,2);
                 if($price==0)
                     $price=GetHotelPrices($hotelIdInternal,1);
-                InsertToExcel($TAG,$currentProvince,$price);
+                InsertToExcel($TAG,$currentProvince,$price,"www.ivivu.com");
                 break;
             }
 		}
@@ -196,9 +345,9 @@ function Crawler_Motel(){
 
      $tmp=$html->find('tr td p span');
      $price= (int) str_replace(".", '', $tmp[14]->innertext);
-     InsertToExcel($TAG1,$currentProvince, $price);
+     InsertToExcel($TAG1,$currentProvince, $price,"nhanghikimdong1.com");
      $price= (int) str_replace(".", '', $tmp[26]->innertext);
-     InsertToExcel($TAG2,$currentProvince, $price);
+     InsertToExcel($TAG2,$currentProvince, $price,"nhanghikimdong1.com");
 
 }
 //Room
@@ -214,12 +363,12 @@ function Crawler_Room_By_Hour(){
     //single
     $price1= (int) str_replace(".", '', $tmp[3]->innertext);
     $price2= (int) str_replace(".", '', $tmp[10]->innertext);
-    InsertToExcel($TAG1,$currentProvince,"first :".$price1." + ".$price2);
+    InsertToExcel($TAG1,$currentProvince,"first :".$price1." + ".$price2,"nhanghikimdong1.com");
     
     //couple
     $price1= (int) str_replace(".", '', $tmp[21]->innertext);
     $price2= (int) str_replace(".", '', $tmp[28]->innertext);
-    InsertToExcel($TAG2,$currentProvince,"first :".$price1." + ".$price2);   
+    InsertToExcel($TAG2,$currentProvince,"first :".$price1." + ".$price2,"nhanghikimdong1.com");   
 }
 function Crawler_Room_By_Day(){
     $currentProvince="Toàn Quốc";
@@ -235,7 +384,7 @@ function Crawler_Room_By_Day(){
             $price =(int)$element->innertext;
 
             $price *=$GLOBALS['USD'];
-            InsertToExcel($TAG1,$currentProvince,$price);   
+            InsertToExcel($TAG1,$currentProvince,$price,"adamasapartment.com");   
             break;
         }
         
@@ -251,7 +400,7 @@ function Crawler_Room_By_Day(){
         if(strpos($element->innertext,"$/ ngày")){
             $price =(int)$element->innertext;
             $price *=$GLOBALS['USD'];
-            InsertToExcel($TAG1,$currentProvince,$price);   
+            InsertToExcel($TAG1,$currentProvince,$price,"adamasapartment.com");   
             break;
         }
         
@@ -272,7 +421,7 @@ function Crawler_Room_By_Month(){
             $price =(int)$element->innertext;
 
             $price *=$GLOBALS['USD'];
-            InsertToExcel($TAG1,$currentProvince,$price);   
+            InsertToExcel($TAG1,$currentProvince,$price,"adamasapartment.com");   
             break;
         }
         
@@ -288,7 +437,7 @@ function Crawler_Room_By_Month(){
         if(strpos($element->innertext,"$/tháng")){
             $price =(int)$element->innertext;
             $price *=$GLOBALS['USD'];
-            InsertToExcel($TAG1,$currentProvince,$price);   
+            InsertToExcel($TAG1,$currentProvince,$price,"adamasapartment.com");   
             break;
         }
         
@@ -308,7 +457,7 @@ function Crawler_Home_Stay_By_Day(){
        
         if(strpos($element->innertext,"đ/ngày")){
             $price= (int) str_replace(",", '',$element->innertext);
-            InsertToExcel($TAG,$currentProvince,$price);   
+            InsertToExcel($TAG,$currentProvince,$price,"www.westay.org");   
             break;
         }
         
@@ -335,7 +484,7 @@ function Crawler_House_Villas_for_rent_by_day(){
     };
     if($i>0)
         $tmp /=$i;
-     InsertToExcel($TAG,$currentProvince,$tmp);   
+     InsertToExcel($TAG,$currentProvince,$tmp,"sotaynhadat.vn");   
 }
 
 //House/Villas for rent by month
@@ -371,11 +520,11 @@ function Crawler_Villas_By_Province($currentProvince,$url){
     };
     if($i>0)
     $tmp /=$i;
-    InsertToExcel($TAG,$currentProvince,$tmp);
+    InsertToExcel($TAG,$currentProvince,$tmp,"sotaynhadat.vn");
 }
 
 //endCrawl
-function InsertToExcel($service,$currentProvince,$price){
+function InsertToExcel($service,$currentProvince,$price,$detail){
     if(strpos($price,"+")==0)
         if($price==0) return;
     LoadFile();
@@ -399,7 +548,7 @@ function InsertToExcel($service,$currentProvince,$price){
     }
      
     //Log  echo "2XXXx XXXXXXXXX".$currentProvince;
-    InserLog($service,$currentProvince,$price);
+    InserLog($service,$currentProvince,$price,$detail);
     SaveFile();
 };
 function GetProvinceList(){
