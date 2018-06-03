@@ -11,7 +11,7 @@
             background-color: #e9f1f9;
         }
         .output {
-            background-color:white;
+           // background-color:white;
             height:200px;
             overflow-y: scroll;
             display: none;
@@ -94,9 +94,9 @@
             </div>
         <div class="output" id="output">
 
-             <a href="#" id="view_ouput" class="ml-auto"><h1 class="ml-auto" style="color:red">View logs online </h1></a>
-             <a href="Database.xlsx" id="view_ouput" class="ml-auto"><h1 class="ml-auto" style="color:red">Database Here</h1></a>
-             <a href="Log.xlsx" id="view_ouput" class="ml-auto"><h1 class="ml-auto" style="color:red">Logs Here</h1></a>
+             <a href="#" id="view_ouput" class="ml-auto"><h1 class="text-center" style="color:blue">View logs online </h1></a>
+             <a href="Database.xlsx" id="view_ouput" class="ml-auto"><h1 class="text-center" style="color:blue">Database Here</h1></a>
+             <a href="Log.xlsx" id="view_ouput" class="ml-auto"><h1 class="text-center" style="color:blue">Logs Here</h1></a>
 
       </div>
       </div>

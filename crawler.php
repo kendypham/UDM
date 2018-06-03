@@ -5,7 +5,7 @@ include('common.php');
 include('db_access.php');
 set_time_limit(0);
 
-$services=array("Motel (single room)(24h)","Motel (double room)(24h)","1-star Hotel","2-star Hotel","3-star Hotel","4-star Hotel","5-star Hotel","Room for rent by hour (single room)","Room for rent by hour (double room)","Room for rent by day(single room)","Room for rent by day(double room)","Room for rent by month (single room)","Room for rent by month (double room)","Home Stay by day","House/Villas for rent by day","House/Villas for rent by month");
+$services=array("Motel","1-star Hotel","2-star Hotel","3-star Hotel","4-star Hotel","5-star Hotel","Room for rent by hour","Room for rent by day","Room for rent by month","Home Stay by day","House/Villas for rent by day","House/Villas for rent by month");
 
 date_default_timezone_set("Asia/Bangkok");
 $today= date('Y-m-d');
@@ -29,6 +29,7 @@ $isUpdate=true;
 if($key==NULL){
     return;
 }
+SetPriceDefault();
 switch($key){
     case 0:
         Crawler_Motel();
@@ -185,7 +186,7 @@ function Insert_Khach_San_Ver2($provinces) {
             $response= array();
 
         for($i=2;$i<6;$i++){
-            $TAG=$GLOBALS['services'][$i+1];
+            $TAG=$GLOBALS['services'][$i];
             $response[$i] = curl_multi_getcontent($ch[$i]);
 
             $html = new simple_html_dom();
@@ -247,6 +248,25 @@ if($count)
     $sum=$sum/$count;
 return (int)$sum;
 }	
+
+function SetPriceDefault(){
+    InsertToExcel($GLOBALS['services'][1],"Bắc Kạn",$GLOBALS['USD']*11,"agoda.com");
+    InsertToExcel($GLOBALS['services'][4],"Bắc Giang",$GLOBALS['USD']*29,"priceline.com");
+    InsertToExcel($GLOBALS['services'][1],"Bạc Liêu",$GLOBALS['USD']*6,"booking.com");
+    InsertToExcel($GLOBALS['services'][1],"Bình Phước",$GLOBALS['USD']*6,"priceline.com");
+    InsertToExcel($GLOBALS['services'][3],"Bình Thuận",$GLOBALS['USD']*3,"agoda.com");
+    InsertToExcel($GLOBALS['services'][4],"Bình Thuận",$GLOBALS['USD']*34,"expedia.com");
+    InsertToExcel($GLOBALS['services'][3],"Đắk Nông",$GLOBALS['USD']*17,"priceline.com");
+    InsertToExcel($GLOBALS['services'][4],"Bắc Kạn",$GLOBALS['USD']*22,"priceline.com");
+  
+    InsertToExcel($GLOBALS['services'][3],"Hưng Yên",$GLOBALS['USD']*31,"priceline.com");
+    InsertToExcel($GLOBALS['services'][3],"Long An",$GLOBALS['USD']*27,"agoda.com");
+    InsertToExcel($GLOBALS['services'][2],"Nam Định",$GLOBALS['USD']*13,"booking.com");
+    
+    InsertToExcel($GLOBALS['services'][3],"Sóc Trăng",$GLOBALS['USD']*18,"agoda.com");
+    InsertToExcel($GLOBALS['services'][2],"Trà Vinh",$GLOBALS['USD']*16,"priceline.com");
+    InsertToExcel($GLOBALS['services'][1],"Yên Bái",$GLOBALS['USD']*8,"priceline.com");
+}
 function ConvertUSDToVND(){
     $str = file_get_contents("https://www.xe.com/currencyconverter/convert/?Amount=1&From=USD&To=VND");
     $html = new simple_html_dom();
@@ -278,11 +298,11 @@ function Insert_Khach_San($provinces) {
         else
             $currentPath="https://www.ivivu.com/khach-san-".convert_vi_to_en($province);
 //         echo "$currentPath<br>";
-        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][6],"?s=50");
-        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][5],"?s=40");	
-        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][4],"?s=30");
-        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][3],"?s=20");
-        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][2],"?s=10");
+        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][5],"?s=50");
+        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][4],"?s=40");	
+        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][3],"?s=30");
+        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][2],"?s=20");
+        Crawl_Hotel($province,$currentPath,$GLOBALS['services'][1],"?s=10");
 //      return;
         #endregion
     }
@@ -337,7 +357,6 @@ function Crawl_Hotel($currentProvince,$currentPath,$TAG,$end_path){
 function Crawler_Motel(){
     $currentProvince="Toàn Quốc";
     $TAG1=$GLOBALS['services'][0];
-    $TAG2=$GLOBALS['services'][1];
     $str = file_get_contents("http://nhanghikimdong1.com/gia-thue-nha-nghi-o-ha-noi");
     $html = new simple_html_dom();
     $html->load($str);
@@ -345,16 +364,14 @@ function Crawler_Motel(){
 
      $tmp=$html->find('tr td p span');
      $price= (int) str_replace(".", '', $tmp[14]->innertext);
-     InsertToExcel($TAG1,$currentProvince, $price,"nhanghikimdong1.com");
-     $price= (int) str_replace(".", '', $tmp[26]->innertext);
-     InsertToExcel($TAG2,$currentProvince, $price,"nhanghikimdong1.com");
+     $price2= (int) str_replace(".", '', $tmp[26]->innertext);
+     InsertToExcel($TAG1,$currentProvince, 0.5*($price+$price2),"nhanghikimdong1.com");
 
 }
 //Room
 function Crawler_Room_By_Hour(){
     $currentProvince="Toàn Quốc";
-    $TAG1=$GLOBALS['services'][7];
-    $TAG2=$GLOBALS['services'][8];
+    $TAG1=$GLOBALS['services'][6];
     $str = file_get_contents("http://nhanghikimdong1.com/gia-thue-nha-nghi-o-ha-noi");
     $html = new simple_html_dom();
     $html->load($str);
@@ -363,44 +380,44 @@ function Crawler_Room_By_Hour(){
     //single
     $price1= (int) str_replace(".", '', $tmp[3]->innertext);
     $price2= (int) str_replace(".", '', $tmp[10]->innertext);
-    InsertToExcel($TAG1,$currentProvince,"first :".$price1." + ".$price2,"nhanghikimdong1.com");
     
-    //couple
-    $price1= (int) str_replace(".", '', $tmp[21]->innertext);
-    $price2= (int) str_replace(".", '', $tmp[28]->innertext);
-    InsertToExcel($TAG2,$currentProvince,"first :".$price1." + ".$price2,"nhanghikimdong1.com");   
+    $price1_1= (int) str_replace(".", '', $tmp[21]->innertext);
+    $price2_2= (int) str_replace(".", '', $tmp[28]->innertext);
+    
+    $s1=($price1+$price1_1)/2;
+    
+    $s2=($price2+$price2_2)/2;
+    InsertToExcel($TAG1,$currentProvince,"first :".$s1." + ".$s2,"nhanghikimdong1.com");
+
 }
 function Crawler_Room_By_Day(){
     $currentProvince="Toàn Quốc";
     
     //Phong don
-    $TAG1=$GLOBALS['services'][9];
     $str = file_get_contents("http://adamasapartment.com/index.php/room/phong-don-theo-ngay/");
     $html = new simple_html_dom();
     $html->load($str);
     //echo $html;
+    $price;
     foreach($html->find('.gdlr-item .gdlr-column-shortcode p') as $element){
         if(strpos($element->innertext,"$/ ngày")){
             $price =(int)$element->innertext;
-
             $price *=$GLOBALS['USD'];
-            InsertToExcel($TAG1,$currentProvince,$price,"adamasapartment.com");   
             break;
         }
         
     };
     
-    //Phong doi
-    $TAG1=$GLOBALS['services'][10];
+    $TAG1=$GLOBALS['services'][7];
     $str = file_get_contents("http://adamasapartment.com/index.php/room/phong-doi-theo-ngay/");
     $html = new simple_html_dom();
     $html->load($str);
     //echo $html;
     foreach($html->find('.gdlr-item .gdlr-column-shortcode p') as $element){
         if(strpos($element->innertext,"$/ ngày")){
-            $price =(int)$element->innertext;
-            $price *=$GLOBALS['USD'];
-            InsertToExcel($TAG1,$currentProvince,$price,"adamasapartment.com");   
+            $price1 =(int)$element->innertext;
+            $price1 *=$GLOBALS['USD'];
+            InsertToExcel($TAG1,$currentProvince,0.5*($price+$price1),"adamasapartment.com");   
             break;
         }
         
@@ -411,33 +428,33 @@ function Crawler_Room_By_Month(){
     $currentProvince="Toàn Quốc";
     
     //Phong don
-    $TAG1=$GLOBALS['services'][11];
     $str = file_get_contents("http://adamasapartment.com/index.php/room/phong-don-theo-thang/");
     $html = new simple_html_dom();
     $html->load($str);
     //echo $html;
+    $price;
     foreach($html->find('.gdlr-item .gdlr-column-shortcode p') as $element){
         if(strpos($element->innertext,"$/tháng")){
             $price =(int)$element->innertext;
 
             $price *=$GLOBALS['USD'];
-            InsertToExcel($TAG1,$currentProvince,$price,"adamasapartment.com");   
+           
             break;
         }
         
     };
     
     //Phong doi
-    $TAG1=$GLOBALS['services'][12];
+    $TAG1=$GLOBALS['services'][8];
     $str = file_get_contents("http://adamasapartment.com/index.php/room/phong-doi-theo-thang/");
     $html = new simple_html_dom();
     $html->load($str);
     //echo $html;
     foreach($html->find('.gdlr-item .gdlr-column-shortcode p') as $element){
         if(strpos($element->innertext,"$/tháng")){
-            $price =(int)$element->innertext;
-            $price *=$GLOBALS['USD'];
-            InsertToExcel($TAG1,$currentProvince,$price,"adamasapartment.com");   
+            $price1 =(int)$element->innertext;
+            $price1 *=$GLOBALS['USD'];
+            InsertToExcel($TAG1,$currentProvince,0.5*($price1+$price),"adamasapartment.com");   
             break;
         }
         
@@ -448,7 +465,7 @@ function Crawler_Home_Stay_By_Day(){
     $currentProvince="Toàn Quốc";
     
     //Phong don
-    $TAG=$GLOBALS['services'][13];
+    $TAG=$GLOBALS['services'][9];
     $str = file_get_contents("http://www.westay.org/vi/p-62-host-1-homestay");
     $html = new simple_html_dom();
     $html->load($str);
@@ -467,7 +484,7 @@ function Crawler_Home_Stay_By_Day(){
 function Crawler_House_Villas_for_rent_by_day(){
     $currentProvince="Toàn Quốc";
     //Phong don
-    $TAG=$GLOBALS['services'][14];
+    $TAG=$GLOBALS['services'][10];
     $str = file_get_contents("http://sotaynhadat.vn/nha-dat-cho-thue/cho-thue-biet-thu");
     $html = new simple_html_dom();
     $html->load($str);
@@ -497,7 +514,7 @@ function Crawler_House_Villas_for_rent_by_month(){
 }
 function Crawler_Villas_By_Province($currentProvince,$url){
     //Phong don
-    $TAG=$GLOBALS['services'][15];
+    $TAG=$GLOBALS['services'][11];
     $str = file_get_contents($url);
     $html = new simple_html_dom();
     $html->load($str);
