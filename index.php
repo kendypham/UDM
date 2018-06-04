@@ -12,9 +12,9 @@
         }
         .output {
            // background-color:white;
-            height:200px;
+            height:400px;
             overflow-y: scroll;
-            display: none;
+           
 }
         }
 
@@ -81,7 +81,7 @@
         </div>
     </div>
 </div>
-
+<br><br><br><br><br><br><br>
   <div class="row" >
       <div class="container m-auto p-4">
             <div class="row" >
@@ -95,10 +95,12 @@
         <div class="output" id="output">
 
              <a href="#" id="view_ouput" class="ml-auto"><h1 class="text-center" style="color:blue">View logs online </h1></a>
-             <a href="Database.xlsx" id="view_ouput" class="ml-auto"><h1 class="text-center" style="color:blue">Database Here</h1></a>
-             <a href="Log.xlsx" id="view_ouput" class="ml-auto"><h1 class="text-center" style="color:blue">Logs Here</h1></a>
-
+            <a href="view.php" id="view_ouput" class="ml-auto"><h1 class="text-center" style="color:blue">View Database Here</h1></a>
+             <a href="Database.xlsx" id="view_ouput" class="ml-auto"><h1 class="text-center" style="color:blue">Download Database Here</h1></a>
+             <a href="Log.xlsx" id="view_ouput" class="ml-auto"><h1 class="text-center" style="color:blue">Download Logs Here</h1></a>
+          
       </div>
+          <br><br><br><br><br><br><br><br>
       </div>
     </div>
  <script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
@@ -119,7 +121,7 @@
             $(".progress").removeClass("d-none");
             $("#status").removeClass("d-none");
            
-            $("#output").css("display","block");
+//            $("#output").css("display","block");
            
             $('html, body').animate({
                 scrollTop: $("#output").offset().top

@@ -117,3 +117,71 @@ function Show(){
     }
     echo "</table>";	
 }
+
+function GetPrices(){
+
+    $tmpfname = "Database.xlsx";
+    $excelReader = PHPExcel_IOFactory::createReaderForFile($tmpfname);
+    $excelObj = $excelReader->load($tmpfname);
+    $worksheet = $excelObj->getSheet(0);
+    $lastRow = $worksheet->getHighestRow();
+    $provs = [];
+    $ps = [];
+    foreach($worksheet->getRowIterator(1) AS $prov){
+        $cellIterator = $prov->getCellIterator();
+        $cellIterator->setIterateOnlyExistingCells(FALSE);
+        $cells = [];
+        foreach ($cellIterator as $cell) {
+            $cells[] = $cell->getValue();
+        }
+        $provs[] = $cells;
+    }
+
+    for($i = 0; $i < 16; $i++){
+        echo "<div class='' id='p".($i);
+        echo "'><table class='table table-striped'>";
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th>";
+        echo "Tỉnh";
+        echo "</th>";
+        echo "<th>";
+        echo "Giá dịch vụ";
+        echo "</th>";
+        echo "</tr>";
+        echo "</thead>";
+        echo "<tbody>";
+        for($k = 1; $k < 65; $k++) {
+            if($provs[$i+1][$k] != ""){
+                echo "<tr>";
+                echo "<td>";
+                echo $provs[0][$k];
+                echo "</td>";
+                echo "<td>";
+                if(strpos($provs[$i+1][$k],"+"))
+                    echo $provs[$i+1][$k] ." VND";
+                else
+                    echo number_format( (int) $provs[$i+1][$k], 0, '', ',')  ." VND";
+                echo "</td>";
+                echo "</tr>";
+            }
+            else {continue;}
+        }
+        echo "</tbody>";
+        echo "</table>";
+        echo "</div>";
+    }
+}
+function GetServices(){
+    $tmpfname = "Database.xlsx";
+    $excelReader = PHPExcel_IOFactory::createReaderForFile($tmpfname);
+    $excelObj = $excelReader->load($tmpfname);
+    $worksheet = $excelObj->getSheet(0);
+    $lastRow = $worksheet->getHighestRow();
+
+    for($row = 2; $row <= $lastRow; $row++){
+        echo "<a href='#' class='serv' id='".($row - 2)."'>";
+        echo $worksheet->getCell('A'.$row)->getValue();
+        echo "</a>\n";
+    }
+}
